@@ -1,0 +1,56 @@
+name: Build Charter
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, edited]
+    branches: 
+      - main
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: 'Tag as a pre-release?'
+        required: false
+        type: boolean
+        default: true
+      draft:
+        description: 'Create release as a draft?'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Build Container Image
+      run: docker build -t riscv-charter ./
+
+    - name: Build Newsletter
+      run: docker run --rm -v ${PWD}:/build -w /build riscv-charter:latest
+
+    - name: Upload PDF
+      uses: actions/upload-artifact@v3
+      with:
+        name: Charter PDF
+        path: ${{ github.workspace }}/*.pdf
+
+      # Create Release
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ github.workspace }}/*.pdf
+        tag_name: charter-${{ github.run_number }}
+        name: Charter ${{ github.run_number }}
+        draft: ${{ github.event.inputs.draft }}
+        prerelease: ${{ github.event.inputs.prerelease }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GHTOKEN }}
+      if: github.event_name == 'workflow_dispatch' 
+      # This condition ensures this step only runs for workflow_dispatch events.

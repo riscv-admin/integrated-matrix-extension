@@ -1,0 +1,39 @@
+= { New Group Name } { New Group Type } Charter
+
+== Introduction
+
+The {New Group Name} {New Group Type} aims to [INSERT CLEAR, CONCISE OVERALL MISSION STATEMENT IN 2-3 SENTENCES].
+
+== Definitions (Optional)
+
+[TERM 1] refers to [DEFINITION 1]. It is critical because [EXPLAIN SIGNIFICANCE]. [INCLUDE ADDITIONAL TERMS/DEFINITIONS IF REQUIRED].
+
+== Background
+
+[PROVIDE CONTEXT ABOUT THE GROUP'S RELEVANCE AND ANY PERTINENT TECHNOLOGY].
+
+== Objectives
+
+The {New Group Name} {New Group Type} is committed to delivering [SPECIFY DELIVERABLE] with the following attributes:
+
+* [ATTRIBUTE 1]
+* [ATTRIBUTE 2]
+* [ADD MORE AS REQUIRED]
+
+== Exclusions (Optional)
+
+While not currently in scope, the following items may be considered for future iterations:
+
+* [FEATURE 1]
+* [FEATURE 2]
+* [ADD MORE AS REQUIRED]
+
+== Collaborations
+
+To fulfill its objectives, the {New Group Name} {New Group Type} will engage with:
+
+* [GROUP NAME 1] [GROUP TYPE 1]
+* [GROUP NAME 2] [GROUP TYPE 2]
+* [ADDITIONAL GROUPS AS NEEDED]
+
+NOTE: Ensure to replace all placeholders ({ }) with the actual names or information and remove any optional sections that are not applicable to your charter. Also, remove this note :)
