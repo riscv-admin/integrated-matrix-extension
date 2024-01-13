@@ -1,39 +1,59 @@
-= { New Group Name } { New Group Type } Charter
+= { Integrated Matrix Facility } { Task Group } Charter
 
-== Introduction
+== SIG duties vs. TG duties
 
-The {New Group Name} {New Group Type} aims to [INSERT CLEAR, CONCISE OVERALL MISSION STATEMENT IN 2-3 SENTENCES].
+The SIG defines a scope for the task group. The scope needs to be detailed enough for presenting a meaningful proposal to the TSC as opposed to being just one sentence with the topic.
 
-== Definitions (Optional)
+By discussing different approaches and goals within the SIG we are:
 
-[TERM 1] refers to [DEFINITION 1]. It is critical because [EXPLAIN SIGNIFICANCE]. [INCLUDE ADDITIONAL TERMS/DEFINITIONS IF REQUIRED].
+* making progress towards the final goal (a RISC-V ISA matrix extension specification)   
+* avoiding the case that the TSC needs to reject the proposal because the idea has not been sufficiently discussed within the SIG.
 
-== Background
+There is no damage to the goal or delay on the delivery of the final spec by discussing technical matters on the SIG, as long as there is continuous progress. Labeling a point in time as the “split” into a Task Group is orthogonal with making progress.
 
-[PROVIDE CONTEXT ABOUT THE GROUP'S RELEVANCE AND ANY PERTINENT TECHNOLOGY].
+Anyone wanting to contribute to the Integrated Matrix Facility task group should get involved as soon as possible at all levels (SIG or Task Group). Member companies are not expected to wait until the Vector SIG launches the Integrated Matrix Facility Task Group to get involved.
 
-== Objectives
+== HPC’s GEMM as the use case for the extension
 
-The {New Group Name} {New Group Type} is committed to delivering [SPECIFY DELIVERABLE] with the following attributes:
+The exemplar use case for the matrix extensions is BLAS-like GEMM operations, as seen on frameworks such as GotoBLAS, Intel’s MKL or BLIS. In line with that use case the software kernels that we are accelerating are based on the outer product of two small vectors (one column from A and one row from B). Any adopted solution must demonstrate the ability to achieve a very high percentage of peak performance on GEMM operations.
 
-* [ATTRIBUTE 1]
-* [ATTRIBUTE 2]
-* [ADD MORE AS REQUIRED]
+The matrix extensions must also demonstrate good support for other important kernels, such as convolution, stencil operators, and discrete Fourier transform. Implementations of these kernels with the matrix extensions must be able to achieve performance improvements over the corresponding vector implementations.
 
-== Exclusions (Optional)
+== Data types for HPC use cases
 
-While not currently in scope, the following items may be considered for future iterations:
+In terms of data types, we need to support single- (32-bit) and double-precision (64-bit) IEEE floating-point numbers, both for the accumulators and the input operands. This requirement is in line with the kernels from the HPC benchmarking suites.
 
-* [FEATURE 1]
-* [FEATURE 2]
-* [ADD MORE AS REQUIRED]
+== Neural network layers in deep learning
 
-== Collaborations
+Deep learning inference with fully-connected and convolutional layers can benefit from the infrastructure built for HPC’s GEMM. The support for machine learning inference comes with the requirement of adding lower precision data types.
 
-To fulfill its objectives, the {New Group Name} {New Group Type} will engage with:
+The added data types are those seen in popular inference frameworks such as Glow or TensorFlow, including: half-precision (16-bit) IEEE floating point, bfloat16, fp8 (in its different formats), intq8, uintq8, intq4 and uintq4 (quantized signed- and unsigned-integer numbers, possibly with both modular and saturating integer arithmetic).
 
-* [GROUP NAME 1] [GROUP TYPE 1]
-* [GROUP NAME 2] [GROUP TYPE 2]
-* [ADDITIONAL GROUPS AS NEEDED]
+== Blue-print for the GEMM software kernel
 
-NOTE: Ensure to replace all placeholders ({ }) with the actual names or information and remove any optional sections that are not applicable to your charter. Also, remove this note :)
+For a blue-print of the software kernel that we are accelerating we should look at the BLIS microkernel. The task group will deliver a GEMM kernel for BLIS using the new instructions and report the improvement compared to the existing RISC-V solution.
+
+The delivery of the BLIS kernel implies various dependencies and summarizes all the typical deliveries for a task group like the one being created:
+specification of the operations,
+
+* instruction encoding,
+* compiler support,
+* simulation support,
+* library code development.
+
+== Guidelines for specification of matrix extension
+
+We want to respect the creative process of the resulting Task Group, while providing guidelines that will lead to a solution that fulfills the requirements for high-performance matrix computing in RISC-V.
+
+We are pursuing a Vector-based Matrix Extension. That is, matrix data is expected to reside in the existing scalable vector registers of the RISC-V Vector Extension. During the Vector-SIG meetings, we considered five options for storing matrices in the vector registers:
+
+* Option A: One matrix per vector registers.
+* Option B: One matrix in multiple vector registers.
+* Option C: Multiple matrices in one vector register.
+* Option D: Streaming buffers for the input matrices.
+* Option E: Variable matrix representation.
+
+The TG must consider at least these five options and it may consider any additional option as deemed appropriate for the goals of the Vector-based Matrix Extension. The resulting specification should propose just one format for storing matrices in vector registers. Additional formats can be considered in later extensions.
+
+The matrix storage format and the new instructions proposed in the specification should be developed considering the following goals in mind:
+
