@@ -57,3 +57,53 @@ The TG must consider at least these five options and it may consider any additio
 
 The matrix storage format and the new instructions proposed in the specification should be developed considering the following goals in mind:
 
+. Full support for vector-length agnostic code at the binary level - executables must be portable across machines with different vector lengths, while exploiting the increased computational capacity of longer vectors.
+
+. Specify deterministic results for computations, including those performed with
+floating-point and saturating integer arithmetic.
+
+. The results of computations achieved with matrix extensions should be reproducible with plain scalar and/or vector code. (Note: This may require new scalar and/or vector instructions, as determined by the TG.)
+
+. The cost of any additional architected state introduced by a solution needs to be specified and analyzed in terms of cost/benefit.
+
+. Achievement of near peak (~90%) performance for GEMM kernels must be possible
+with reasonable implementations.
+
+. Achievement of higher (~2x) performance than vector alternatives for other kernels must be possible with reasonable implementations.
+
+. (Near) maximization of computational intensity (defined as the ratio of element-level multiply-add operations to element loads) for GEMM and other kernels. This is typically achieved when the resident panel of the result matrix is close to square.
+
+. (Near) minimization of additional architected state. The primary goal is to store the matrices in existing vector registers. Any additional state (e.g., for inputs, for behavior control, etc) must be considered carefully and properly justified.
+
+. Running threads using the Vector-based Matrix Extension must be able to
+live-migrate (migrate while running) to a processor with larger vector registers.
+Ideally, the migrated code would take advantage of the expanded registers as quickly as possible.
+
+. Proper support for packing routines. GEMM and other HPC kernels typically include a packing phase, which reformats data, before the computational phase. The
+overhead of the packing phase is necessary to achieve the highest performance in
+the computation phase, and the specification should include appropriate support to
+minimize that overhead.
+
+Additional information on performance guidelines: Solutions that follow the guidelines from the above section will be rated according to two architectural metrics, computed for the exemplar GEMM kernel. The metrics are architectural in the sense that they can be calculated for the architecture, irrespective of the microarchitecture:
+
+. Computational intensity: This (already stated above) is defined as the ratio of the number of element-level multiply-add operations to the number of elements loaded.
+
+. Maximum computation rate: The upper bound, as imposed by architectural
+characteristics, on the number of element-level multiply-add operations that can be completed per cycle. (Possibly parameterized on the parameter Δ - latency of an
+elemental multiply-add.)
+
+== Comments from Unprivileged Committee Chairs
+
+. Consider the commonality (or lack thereof) between solutions for HPC and DL.
+Ideally we would have a common solution, but we should not straightjacket either
+area.
+
+. Matrix extensions should work well with both in-order and out-of-order cores.
+
+. Specification should be cognizant of the additional requirements on vector registers that these extensions may impose. They must be compatible with current use of vector registers.
+
+. Investigate the value and cost of saturating integer arithmetic.
+
+. Investigate the value and cost of live migration across systems with different vector register sizes.
+
+. Matrix processing must offer significant performance gains over vector processing to justify the effort. Gains can be more modest for (the more costly) higher precision (e.g., 64- and 32-bit floating-point) but should be higher for lower precision (e.g., 16- and 8-bit floating-point).
