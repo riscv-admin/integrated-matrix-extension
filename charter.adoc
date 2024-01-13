@@ -1,4 +1,4 @@
-= { Integrated Matrix Facility } { Task Group } Charter
+=  Integrated Matrix Facility Task Group  Charter
 
 == SIG duties vs. TG duties
 
