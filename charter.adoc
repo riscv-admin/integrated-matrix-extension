@@ -34,8 +34,8 @@ The added data types are those seen in popular inference frameworks such as Glow
 For a blue-print of the software kernel that we are accelerating we should look at the BLIS microkernel. The task group will deliver a GEMM kernel for BLIS using the new instructions and report the improvement compared to the existing RISC-V solution.
 
 The delivery of the BLIS kernel implies various dependencies and summarizes all the typical deliveries for a task group like the one being created:
-specification of the operations,
 
+* specification of the operations,
 * instruction encoding,
 * compiler support,
 * simulation support,
