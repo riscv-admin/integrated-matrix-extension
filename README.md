@@ -10,13 +10,15 @@
   * Jose Moreira  (Acting Vice-chair, IBM)
  
 * Meetings
-  * Previous meetings: 2024-JAN-08, 2024-JAN-22
-  * Current meeting: 2024-FEB-05
-  * Next meeting: 2024-FEB-19?
+  * Previous meetings: -
+  * Current meeting: 2024/02/12
+  * Next meeting: 2024/02/26
 
 * Disclaimer
   * Slides
   * Video
  
 * Agenda
-
+  * Revisiting the IME preliminary options
+  * Metrics and workloads
+  * Quantitative approaches
