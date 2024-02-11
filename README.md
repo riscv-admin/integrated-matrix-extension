@@ -13,7 +13,7 @@
   * Next meeting: 2024/02/26
 * Disclaimer
   * Slides
-  * Video (https://drive.google.com/file/d/1NddUrkHPJukhUo8OeD7uvrWCqRaMt9zx/view) 
+  * [Video](https://drive.google.com/file/d/1NddUrkHPJukhUo8OeD7uvrWCqRaMt9zx/view) 
 * Agenda
   * Revisiting the IME preliminary options
   * Metrics and workloads
