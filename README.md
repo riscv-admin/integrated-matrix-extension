@@ -16,8 +16,8 @@
   * [Video](https://drive.google.com/file/d/1NddUrkHPJukhUo8OeD7uvrWCqRaMt9zx/view) 
 * Agenda
   * Revisiting the IME preliminary options
-  * Metrics and workloads
   * Quantitative vs Qualitative approaches
+  * Metrics and workloads
 * Meetings 
   * Slides
   * Video
