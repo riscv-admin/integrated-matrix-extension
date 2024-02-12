@@ -18,3 +18,6 @@
   * Revisiting the IME preliminary options
   * Metrics and workloads
   * Quantitative vs Qualitative approaches
+* Meetings 
+  * Slides
+  * Video
