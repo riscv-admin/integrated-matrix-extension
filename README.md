@@ -8,8 +8,8 @@
   * Guido Araujo  (Acting Chair, UNICAMP)
   * Jose Moreira  (Acting Vice-chair, IBM)
 * Meetings
-  * Previous meetings: -
-  * Current meeting: 2024/02/12
+  * Previous meetings: 2024/02/12
+  * Current meeting: -
   * Next meeting: 2024/02/26
 * Disclaimer
   * Slides
