@@ -18,7 +18,7 @@
   * Revisiting the IME preliminary options
   * Qualitative vs Quantitative approaches
   * Metrics and workloads
-- [Minutes](https://github.com/riscv-admin/integrated-matrix-extension/blob/main/Minutes)
+* <! [Minutes](https://github.com/riscv-admin/integrated-matrix-extension/blob/main/Minutes)>
 * Meetings 
   * 2024/02/12
    * [Slides](https://drive.google.com/file/d/1RC2RZwX8IJctRgNOlq78xojyPoqiF_q5/view?usp=sharing)
