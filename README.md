@@ -10,9 +10,9 @@
 * Disclaimer
   * Slides
   * [Video](https://drive.google.com/file/d/1NddUrkHPJukhUo8OeD7uvrWCqRaMt9zx/view)
-* Meetings
+* [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
   * Previous meetings: [2024/02/12](#20240212)
   * Current meeting: -
   * Next meeting: 2024/02/26
-  * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
+
 
