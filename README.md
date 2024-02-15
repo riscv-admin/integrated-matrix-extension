@@ -7,11 +7,12 @@
 * Acting Chairs
   * Guido Araujo  (Acting Chair, UNICAMP)
   * Jose Moreira  (Acting Vice-chair, IBM)
-* Meetings
-  * Previous meetings: 2024/02/12
-  * Current meeting: -
-  * Next meeting: 2024/02/26
 * Disclaimer
   * Slides
-  * [Video](https://drive.google.com/file/d/1NddUrkHPJukhUo8OeD7uvrWCqRaMt9zx/view) 
-* [Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
+  * [Video](https://drive.google.com/file/d/1NddUrkHPJukhUo8OeD7uvrWCqRaMt9zx/view)
+* Meetings
+  * Previous meetings: [2024/02/12](#20240212)
+  * Current meeting: -
+  * Next meeting: 2024/02/26
+  * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
+
