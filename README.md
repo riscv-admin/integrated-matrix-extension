@@ -14,4 +14,4 @@
 * Disclaimer
   * Slides
   * [Video](https://drive.google.com/file/d/1NddUrkHPJukhUo8OeD7uvrWCqRaMt9zx/view) 
-* [Meeting Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
+* [Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
