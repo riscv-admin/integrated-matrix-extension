@@ -16,4 +16,4 @@ Attendance (# people):
 ## Agenda
 - [Zoom recording]()
 - Analysis of various IME options (Bing Yu, Andes Tech)
-- Strawman for IME Option A [PDF]() (Jose Moreira, IBM)
+- Strawman for IME Option A [PDF](Option_A.pdf) (Jose Moreira, IBM)
