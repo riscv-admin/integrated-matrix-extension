@@ -2,7 +2,7 @@
 # Integrated Matrix Extension
 
 * Meeting details
-  * Date: 2024-02-05 
+  * Date: Odd week on Mon.
   * Time: 08:00 (PST), 11:00 (EDT), 13:00 (BRT), 17:00 (CET), 24:00 (CST/TST)
 * Disclaimer
   * Slides
@@ -11,8 +11,8 @@
   * Guido Araujo  (Acting Chair, UNICAMP)
   * Jose Moreira  (Acting Vice-chair, IBM)
 * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
-  * Previous meeting: [2024/02/12](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240212)
-  * Current meeting: -
-  * Next meeting: 2024/02/26
+  * Previous meeting: [2024/02/26](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240212)
+  * Current meeting: 2024/02/26
+  * Next meeting: 2024/03/11
 
 
