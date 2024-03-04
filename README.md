@@ -2,7 +2,7 @@
 # Integrated Matrix Extension
 
 * Meeting details
-  * Date: Odd week on Mon.
+  * Date: Odd weeks on Mon.
   * Time: 08:00 (PST), 11:00 (EDT), 13:00 (BRT), 17:00 (CET), 24:00 (CST/TST)
 * Disclaimer
   * Slides
