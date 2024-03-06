@@ -2,7 +2,7 @@
 # Integrated Matrix Extension
 
 * Task Group Info
-  * [Group](https://lists.riscv.org/g/tech-integrated-matrix-extension)
+  * [Group page](https://lists.riscv.org/g/tech-integrated-matrix-extension)
   * [Mailing list](https://lists.riscv.org/g/tech-integrated-matrix-extension/topics)
 * Meeting Details
   * Date: Odd weeks on Mon.
