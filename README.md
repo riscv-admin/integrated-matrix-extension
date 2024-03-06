@@ -1,6 +1,9 @@
 
 # Integrated Matrix Extension
 
+* Task Info
+  * [Group](https://lists.riscv.org/g/tech-integrated-matrix-extension)
+  * [Mailing list](https://lists.riscv.org/g/tech-integrated-matrix-extension/topics)
 * Meeting Day/Time
   * Date: Odd weeks on Mon.
   * Time: 08:00 (PST), 11:00 (EDT), 13:00 (BRT), 17:00 (CET), 24:00 (CST/TST)
