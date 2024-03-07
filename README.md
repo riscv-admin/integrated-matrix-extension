@@ -6,7 +6,7 @@
   * [Mailing list](https://lists.riscv.org/g/tech-integrated-matrix-extension/topics)
 * Meeting Details
   * Date: Odd weeks on Mon.
-  * Time: 08:00 (PST), 11:00 (EDT), 13:00 (BRT), 17:00 (CET), 24:00 (CST/TST)
+  * Time: 08:00 (PST), 11:00 (EDT), 12:00 (BRT), 16:00 (CET), 23:00 (CST/TST)
   * [Zoom link](https://zoom.us/j/93397157767?pwd=UE0vbWJEU0dFSXR4dlp5NGZjaUJJdz09)
   * Meeting ID: 933 9715 7767
   * Passcode: 051351
