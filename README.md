@@ -20,6 +20,6 @@
 * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
   * Previous meeting: [2024/02/12](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240212)
   * Current meeting: [2024/02/26](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240226)
-  * Next meeting: 2024/03/11
+  * Next meeting: [2024/03/11](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240311)
 
 
