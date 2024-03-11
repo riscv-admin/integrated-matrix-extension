@@ -5,8 +5,8 @@
   * [Group page](https://lists.riscv.org/g/tech-integrated-matrix-extension)
   * [Mailing list](https://lists.riscv.org/g/tech-integrated-matrix-extension/topics)
 * Meeting Details
-  * Date: Odd weeks on Mon.
   * [Official RISC-V Technical Calendar](https://tech.riscv.org/calendar/)
+  * Date: Odd weeks on Mon.
   * Time: 09:00 (PDT), 12:00 (EDT), 13:00 (BRT), 17:00 (CET), 24:00 (CST/TST), 01:00 (+1) (JST).
   * [Zoom link](https://zoom.us/j/93397157767?pwd=UE0vbWJEU0dFSXR4dlp5NGZjaUJJdz09)
   * Meeting ID: 933 9715 7767
