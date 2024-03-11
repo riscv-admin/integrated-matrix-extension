@@ -7,7 +7,7 @@
 * Meeting Details
   * Date: Odd weeks on Mon.
   * [Official RISC-V Technical Calendar](https://tech.riscv.org/calendar/)
-  * Time: 08:00 (PDT), 11:00 (EDT), 12:00 (BRT), 16:00 (CET), 23:00 (CST/TST), 24:00 (JST).
+  * Time: 09:00 (PDT), 12:00 (EDT), 13:00 (BRT), 17:00 (CET), 24:00 (CST/TST), 01:00 (+1) (JST).
   * [Zoom link](https://zoom.us/j/93397157767?pwd=UE0vbWJEU0dFSXR4dlp5NGZjaUJJdz09)
   * Meeting ID: 933 9715 7767
   * Passcode: 051351
