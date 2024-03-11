@@ -7,7 +7,7 @@
 * Meeting Details
   * [Official RISC-V Technical Calendar](https://tech.riscv.org/calendar/)
   * Date: Odd weeks on Mon.
-  * Time: 09:00 (PDT), 12:00 (EDT), 13:00 (BRT), 17:00 (CET), 24:00 (CST/TST), 01:00 (+1) (JST).
+  * Time: 08:00 (PDT), 11:00 (EDT), 12:00 (BRT), 16:00 (CET), 23:00 (CST/TST), 24:00 (JST).
   * [Zoom link](https://zoom.us/j/93397157767?pwd=UE0vbWJEU0dFSXR4dlp5NGZjaUJJdz09)
   * Meeting ID: 933 9715 7767
   * Passcode: 051351
@@ -18,8 +18,7 @@
   * Guido Araujo  (Acting Chair, UNICAMP)
   * Jose Moreira  (Acting Vice-chair, IBM)
 * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
-  * Previous meeting: [2024/02/12](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240212)
-  * Current meeting: [2024/02/26](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240226)
-  * Next meeting: [2024/03/11](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240311)
+  * Previous meeting: [2024/03/11](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240212)
+  * Next meeting: [2024/03/25](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240311)
 
 
