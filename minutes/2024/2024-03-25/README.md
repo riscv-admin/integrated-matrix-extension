@@ -15,4 +15,4 @@ Attendance (# people):
 
 ## Agenda
 - [Zoom recording]()
-- [Matrix Tile Extension: Portable ISA For Vector-Integrated Matrix Units](https://github.com/riscv-admin/integrated-matrix-extension/blob/main/MTE_Portable_Intrinsics_IME_TG_20240311.pdf) (Erich Focht, Individual, and Marc Casas, BSC)
+- [Matrix Tile Extension: Portable ISA For Vector-Integrated Matrix Units](https://github.com/riscv-admin/integrated-matrix-extension/blob/main/MTE_Portable_Intrinsics_IME_TG_20240311.pdf) (Erich Focht, NEC, and Marc Casas, BSC)
