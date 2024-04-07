@@ -18,7 +18,7 @@
   * Guido Araujo  (Acting Chair, UNICAMP)
   * Jose Moreira  (Acting Vice-chair, IBM)
 * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
-  * Previous meeting: [2024/03/11](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240311)
-  * Next meeting: [2024/03/25](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240325)
+  * Previous meeting: [2024/03/25](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240325)
+  * Next meeting: [2024/03407](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240407)
 
 
