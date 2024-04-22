@@ -23,7 +23,7 @@
   * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
   * Slides
   * Videos
-* Group Material
+* Group Materials
   * [Working groups](https://docs.google.com/spreadsheets/d/1JvsnjbWNu0991DGnbOnMhwTgKnAZUJlsPKbz9vBXNow/edit#gid=0)
   * Analysis Results
       * [[Andes Tech] IME Feature table](https://docs.google.com/presentation/d/116aZ4uhCl4f33lCmH-BNG-7epEZ1pnZP/edit#slide=id.p1)
