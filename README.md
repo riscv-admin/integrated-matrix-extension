@@ -28,7 +28,7 @@
   * Analysis Results
       * [[Andes Tech] IME Feature table](https://docs.google.com/presentation/d/116aZ4uhCl4f33lCmH-BNG-7epEZ1pnZP/edit#slide=id.p1)
       * [[Andes Tech and Unicamp] Computational intensity notebook](https://colab.research.google.com/drive/1TGw2BgNmbv2rLj0cicEssIBN_9Kr-2HS?usp=sharing)
-      * [[Unicamp] Burst analysis of architectural options](https://colab.research.google.com/drive/1sJk-rhXR94mZpjDoKmHjjcnjxcZwsnoV?usp=sharing)
+      * [[Unicamp] Burst analysis notebook](https://colab.research.google.com/drive/1sJk-rhXR94mZpjDoKmHjjcnjxcZwsnoV?usp=sharing)
   * Workloads and Benchmarking
     * [[Alibaba] Analysis on matrix and vector instructions of ML Models](https://github.com/T-head-Semi/riscv-matrix-extension-spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
     * [[Unicamp] Analysis of vector and matrix transfers in Polybench (HPC benchmark)](https://docs.google.com/spreadsheets/d/1FmBtJt__I1hj4LtRNhwMqrIsKPjSK40DEUBpWAi2QAQ/edit#gid=0)
