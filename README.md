@@ -20,12 +20,18 @@
 * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
   * Previous meeting: [2024/04/08](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240408)
   * Next meeting: [2024/04/22](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240422)
-* Resources
-  *  Meeting slides
-  *  Meeting videos
+* Group Material
+  *  Meeting resources
+    *  Slides
+    *  Videos
+  * Analysis Results
+      * [[Andes Tech] IME Feature table](https://docs.google.com/presentation/d/116aZ4uhCl4f33lCmH-BNG-7epEZ1pnZP/edit#slide=id.p1)
+      * [[Andes Tech and Unicamp] Computational intensity notebook]()
+ 
   * Workload and Benchmarking
-    * [Alibaba analysis on matrix and vector instructions of ML Models](https://github.com/T-head-Semi/riscv-matrix-extension-spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
-    * [UNICAMP analysis of vector and matrix transfers in Polybench (HPC benchmark](https://docs.google.com/spreadsheets/d/1FmBtJt__I1hj4LtRNhwMqrIsKPjSK40DEUBpWAi2QAQ/edit#gid=0)
+    * [[Alibaba] analysis on matrix and vector instructions of ML Models](https://github.com/T-head-Semi/riscv-matrix-extension-spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
+    * [[Unicamp] analysis of vector and matrix transfers in Polybench (HPC benchmark](https://docs.google.com/spreadsheets/d/1FmBtJt__I1hj4LtRNhwMqrIsKPjSK40DEUBpWAi2QAQ/edit#gid=0)
+  
  
 
 
