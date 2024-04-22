@@ -22,7 +22,7 @@
   * Next meeting: [2024/04/22](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240422)
 * Resources
   * Workload and Benchmarking
-    * [Alibaba analysis on matrix and vector instructions of ML Models] (https://github.com/T-head-Semi/riscv-matrix-extension- spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
+    * [Alibaba analysis on matrix and vector instructions of ML Models] (https://github.com/T-head-Semi/riscv-matrix-extension-spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
     * [UNICAMP analysis of vector and matrix instructions in Polybench (HPC benchmark) (TBD)
 
 
