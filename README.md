@@ -34,7 +34,7 @@
   * Workloads and Benchmarking
     * [[Alibaba] Analysis of matrix and vector instructions of ML Models](https://github.com/T-head-Semi/riscv-matrix-extension-spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
     * [[Unicamp] Analysis of vector and matrix transfers in Polybench (HPC benchmark)](https://docs.google.com/spreadsheets/d/1FmBtJt__I1hj4LtRNhwMqrIsKPjSK40DEUBpWAi2QAQ/edit#gid=0)
-    * [[Unicamp] ConvBench
+    * [Unicamp] ConvBench
       * [Repository](https://github.com/LucasFernando-aes/ConvBench)
       * [Slides](https://docs.google.com/presentation/d/1WCXeOk6pKTYOVMLlb8tDQn18MKf7jVpEqTrZZHRs5u8/edit?usp=sharing)
       * [Video](https://drive.google.com/file/d/177l3FYafUxJo7HYsiRobBlvAcOccPi7g/view?usp=sharing)
