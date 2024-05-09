@@ -31,7 +31,8 @@
       * [[Andes and Unicamp] Computational intensity notebook](https://colab.research.google.com/drive/1TGw2BgNmbv2rLj0cicEssIBN_9Kr-2HS?usp=sharing)
       * [[Unicamp] Burst analysis notebook](https://colab.research.google.com/drive/1sJk-rhXR94mZpjDoKmHjjcnjxcZwsnoV?usp=sharing)
       * [[Andes] Cache and DRAM metrics]()
-      * [[Andes] Cache and DRAM evaluation tool](https://github.com/CN-Ke/IME_Evaluation/blob/main/compute_locality.py)  * Workloads and Benchmarking
+      * [[Andes] Cache and DRAM evaluation tool](https://github.com/CN-Ke/IME_Evaluation/blob/main/compute_locality.py)
+  * Workloads and Benchmarking
     * [[Alibaba] Analysis of matrix and vector instructions of ML Models](https://github.com/T-head-Semi/riscv-matrix-extension-spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
     * [[Unicamp] Analysis of vector and matrix transfers in Polybench (HPC benchmark)](https://docs.google.com/spreadsheets/d/1FmBtJt__I1hj4LtRNhwMqrIsKPjSK40DEUBpWAi2QAQ/edit#gid=0)
     * [Unicamp] ConvBench
