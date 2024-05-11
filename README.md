@@ -21,7 +21,7 @@
   * Previous meeting: [2024/05/06](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240506)
   * Next meeting: [2024/05/20](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes#20240520)
   * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
-  * [All Slides]()
+  * [All Slides](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Meetings)
   * Videos
 * Group Materials
   * [Working groups](https://docs.google.com/spreadsheets/d/1JvsnjbWNu0991DGnbOnMhwTgKnAZUJlsPKbz9vBXNow/edit#gid=0)
