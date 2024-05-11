@@ -24,8 +24,9 @@
   * [All Slides](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Meetings)
   * Videos
 * Group Materials
+  * [Roadmap](https://docs.google.com/spreadsheets/d/170fX-avrKYMDfF3kjlzQ6lpqC0c4ytTd/edit?usp=sharing&ouid=112376118999052114595&rtpof=true&sd=true)
   * [Working groups](https://docs.google.com/spreadsheets/d/1JvsnjbWNu0991DGnbOnMhwTgKnAZUJlsPKbz9vBXNow/edit#gid=0)
-  * [Articles]()
+  * [Articles](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Articles)
   * Presentations
       * [Architectures](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Architectures)
       * [Memory Analysis](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Memory%20Analysis)
