@@ -32,16 +32,16 @@
       * [Memory Analysis](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Memory%20Analysis)
       * [uArch](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/uArch)
       * [Workloads](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Workloads)
-* Fast links
+* Fast links to Analysis
   * [[Andes] IME Feature table](https://docs.google.com/spreadsheets/d/161y9CjU6LsI-D6VoXUlXP4p1YEwAMKF3/edit?usp=sharing&ouid=112376118999052114595&rtpof=true&sd=true)
   * [[Andes and Unicamp] Computational intensity notebook](https://colab.research.google.com/drive/1TGw2BgNmbv2rLj0cicEssIBN_9Kr-2HS?usp=sharing)
   * [[Unicamp] Burst analysis notebook](https://colab.research.google.com/drive/1sJk-rhXR94mZpjDoKmHjjcnjxcZwsnoV?usp=sharing)
   * [[Andes] Cache and DRAM metrics]()
   * [[Andes] Cache and DRAM evaluation tool](https://github.com/CN-Ke/IME_Evaluation/blob/main/compute_locality.py)
-  * Workloads and Benchmarking
-    * [[Alibaba] Analysis of matrix and vector instructions of ML Models](https://github.com/T-head-Semi/riscv-matrix-extension-spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
-    * [[Unicamp] Analysis of vector and matrix transfers in Polybench (HPC benchmark)](https://docs.google.com/spreadsheets/d/1FmBtJt__I1hj4LtRNhwMqrIsKPjSK40DEUBpWAi2QAQ/edit#gid=0)
-    * [Unicamp] ConvBench
+* Workloads and Benchmarking
+  * [[Alibaba] Analysis of matrix and vector instructions of ML Models](https://github.com/T-head-Semi/riscv-matrix-extension-spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
+  * [[Unicamp] Analysis of vector and matrix transfers in Polybench (HPC benchmark)](https://docs.google.com/spreadsheets/d/1FmBtJt__I1hj4LtRNhwMqrIsKPjSK40DEUBpWAi2QAQ/edit#gid=0)
+  * [Unicamp] ConvBench
       * [Repository](https://github.com/LucasFernando-aes/ConvBench)
       * [Slides](https://docs.google.com/presentation/d/1WCXeOk6pKTYOVMLlb8tDQn18MKf7jVpEqTrZZHRs5u8/edit?usp=sharing)
       * [Video](https://drive.google.com/file/d/177l3FYafUxJo7HYsiRobBlvAcOccPi7g/view?usp=sharing)
