@@ -32,11 +32,10 @@
       * [Memory Analysis](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Memory%20Analysis)
       * [uArch](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/uArch)
       * [Workloads](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Workloads)
-* Architecture Analysis
+* Notebooks and code
   * [[Andes] IME Feature table](https://docs.google.com/spreadsheets/d/161y9CjU6LsI-D6VoXUlXP4p1YEwAMKF3/edit?usp=sharing&ouid=112376118999052114595&rtpof=true&sd=true)
   * [[Andes and Unicamp] Computational intensity notebook](https://colab.research.google.com/drive/1TGw2BgNmbv2rLj0cicEssIBN_9Kr-2HS?usp=sharing)
   * [[Unicamp] Burst analysis notebook](https://colab.research.google.com/drive/1sJk-rhXR94mZpjDoKmHjjcnjxcZwsnoV?usp=sharing)
-  * [[Andes] Cache and DRAM metrics]()
   * [[Andes] Cache and DRAM evaluation tool](https://github.com/CN-Ke/IME_Evaluation/blob/main/compute_locality.py)
 * Workloads and Benchmarking
   * [[Alibaba] Analysis of matrix and vector instructions of ML Models](https://github.com/T-head-Semi/riscv-matrix-extension-spec/blob/master/doc/slides/AME_workload_analysis_20240412.pdf)
