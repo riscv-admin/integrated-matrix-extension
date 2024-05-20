@@ -42,7 +42,11 @@
       * [Repository](https://github.com/LucasFernando-aes/ConvBench)
       * [Slides](https://docs.google.com/presentation/d/1WCXeOk6pKTYOVMLlb8tDQn18MKf7jVpEqTrZZHRs5u8/edit?usp=sharing)
       * [Video](https://drive.google.com/file/d/177l3FYafUxJo7HYsiRobBlvAcOccPi7g/view?usp=sharing)
+   * [Eldorado, Unicamp and IBM] IBM POWER10 MMA Vector-Matrix Interaction
+      * [Description](https://docs.google.com/document/d/18HNujobGMmEH6jhbmQu5rA1mwl8Wo91m?rtpof=true&usp=drive_fs)
+      * [Data](https://docs.google.com/spreadsheets/d/18KxYZu3Re2Z2f8C2Pttf_6PvO9PxnlOq?rtpof=true&usp=drive_fs)
+     
   
- 
+  
 
 
