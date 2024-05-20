@@ -13,7 +13,7 @@
   * Passcode: 051351
 * Disclaimer
   * [Slides](https://docs.google.com/presentation/d/1LNhpuNwU54TgwGfcl-Fgf4HUFxCxh0AztPaeqMuRQRw/edit#slide=id.p1)
-  * [Video]([https://drive.google.com/file/d/1NddUrkHPJukhUo8OeD7uvrWCqRaMt9zx/view](https://drive.google.com/file/d/16Ye99aupPMzdM4PjYbgoqmpQsXtxlE5j/view?t=4)) 
+  * [Video](https://drive.google.com/file/d/16Ye99aupPMzdM4PjYbgoqmpQsXtxlE5j/view) 
 * Acting Chairs
   * Guido Araujo  (Acting Chair, UNICAMP)
   * Jose Moreira  (Acting Vice-chair, IBM)
