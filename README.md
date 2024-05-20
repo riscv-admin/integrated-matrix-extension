@@ -23,15 +23,15 @@
   * [All Minutes](https://github.com/riscv-admin/integrated-matrix-extension/wiki/IME-TG-Minutes)
   * [All Slides](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Meetings)
   * Videos
-* Group Materials
+* Group Working Schedule
   * [Roadmap](https://docs.google.com/spreadsheets/d/170fX-avrKYMDfF3kjlzQ6lpqC0c4ytTd/edit?usp=sharing&ouid=112376118999052114595&rtpof=true&sd=true)
   * [Working groups](https://docs.google.com/spreadsheets/d/1JvsnjbWNu0991DGnbOnMhwTgKnAZUJlsPKbz9vBXNow/edit#gid=0)
-  * [Articles](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Articles)
-  * Presentations
-      * [Architectures](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Architectures)
-      * [Memory Analysis](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Memory%20Analysis)
-      * [uArch](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/uArch)
-      * [Workloads](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Workloads)
+* [Articles](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Articles)
+* Presentations
+  * [Architectures](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Architectures)
+  * [Memory Analysis](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Memory%20Analysis)
+  * [uArch](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/uArch)
+  * [Workloads](https://github.com/riscv-admin/integrated-matrix-extension/tree/main/Presentations/Workloads)
 * Notebooks and code
   * [[Andes] IME Feature table](https://docs.google.com/spreadsheets/d/161y9CjU6LsI-D6VoXUlXP4p1YEwAMKF3/edit?usp=sharing&ouid=112376118999052114595&rtpof=true&sd=true)
   * [[Andes and Unicamp] Computational intensity notebook](https://colab.research.google.com/drive/1TGw2BgNmbv2rLj0cicEssIBN_9Kr-2HS?usp=sharing)
