@@ -46,6 +46,8 @@
       * Thanks to Jose Moreira!
       * [Description](https://docs.google.com/document/d/18HNujobGMmEH6jhbmQu5rA1mwl8Wo91m?rtpof=true&usp=drive_fs)
       * [Data](https://docs.google.com/spreadsheets/d/18KxYZu3Re2Z2f8C2Pttf_6PvO9PxnlOq?rtpof=true&usp=drive_fs)
+ * Market Analysis
+    * [Companis Need On-Premise HPC – and for More Than AI, Too](https://www.nextplatform.com/2024/05/20/companies-need-on-premise-hpc-and-for-more-than-ai-too/)
      
   
   
