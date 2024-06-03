@@ -48,6 +48,7 @@
       * [Data](https://docs.google.com/spreadsheets/d/18KxYZu3Re2Z2f8C2Pttf_6PvO9PxnlOq?rtpof=true&usp=drive_fs)
  * Market Analysis
     * [Companies Need On-Premise HPC – and for More Than AI, Too](https://www.nextplatform.com/2024/05/20/companies-need-on-premise-hpc-and-for-more-than-ai-too/)
+    * [Hyperion Research Analysis](https://hyperionresearch.com/wp-content/uploads/2024/05/Hyperion-Research-Pre-ISC24-Presentations-May-2024.pdf)
      
   
   
