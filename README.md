@@ -50,6 +50,14 @@
  * Market Analysis
     * [Companies Need On-Premise HPC – and for More Than AI, Too](https://www.nextplatform.com/2024/05/20/companies-need-on-premise-hpc-and-for-more-than-ai-too/)
     * [Hyperion Research Analysis](https://hyperionresearch.com/wp-content/uploads/2024/05/Hyperion-Research-Pre-ISC24-Presentations-May-2024.pdf)
+  * Mathematical Analysis
+    * [Lemmata](https://drive.google.com/open?id=1okPUNbpweYShNuifNVnARrKAImTp4mTJ&usp=drive_fs)
+      * k = 1 maximizes computational intensity under architected state constraints
+      * Computational intensity is maximized for m = n
+    * [Corollaries](https://drive.google.com/open?id=1ookgA_hf4YufXP_23DTMZHQDq2aAALDd&usp=drive_fs)
+      * When vector registers are used as accumulators maximum computational intensity is 1/2 * ½ * (sqrt(RV + 1) – 1). 
+      * When vector registers are all used as operands and accumulators are new state: computational intensity is always larger.
+
      
   
   
