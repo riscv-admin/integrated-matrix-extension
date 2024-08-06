@@ -56,7 +56,7 @@
       * Computational intensity is maximized for m = n
     * [Corollaries](https://drive.google.com/open?id=1ookgA_hf4YufXP_23DTMZHQDq2aAALDd&usp=drive_fs)
       * When vector registers are used as accumulators maximum computational intensity is  ½ * (sqrt(RV + 1) – 1). 
-      * When vector registers are used only as operands and accumulators are newly designed states, computational intensity is always larger.
+      * When vector registers are used only as operands and accumulators are newly designed states, computational intensity is always larger and is given by RV/4.
 
      
   
