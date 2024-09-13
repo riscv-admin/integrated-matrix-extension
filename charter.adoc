@@ -1,109 +1,16 @@
-=  Integrated Matrix Facility Task Group  Charter
+=  Integrated Matrix Extension Task Group Charter
 
-== SIG duties vs. TG duties
+The Integrated Matrix Extension is an ISA extension that will build on top of the RISC-V Vector extensions and will define new matrix instructions that operate on the existing vector registers (in contrast to the Attached Matrix Extension).  Multiple options for storing matrices in vector registers will be explored and evaluated based on a key set of architectural and microarchitectural metrics reflective of real-world implementations ranging from low-end embedded cores to high-end apps cores to HPC cores.  One approach will be selected as the basis for the IME extension.
 
-The SIG defines a scope for the task group. The scope needs to be detailed enough for presenting a meaningful proposal to the TSC as opposed to being just one sentence with the topic.
+The initial IME extension will focus on matrix instructions and any necessary supporting instructions for AI/ML applications and also for HPC applications.  This will include support for currently used AI/ML and HPC data types (e.g. int8, bfloat16, FP32, FP64).  Follow-on extensions will add support for newer AI/ML data types (e.g. FP8, 4-bit block FP), and consider adding support for sparse matrices.  The initial extension will, though, strive to ensure clear paths for these and other expansions.  The initial IME specification will also be developed with consideration of the following in mind:
 
-By discussing different approaches and goals within the SIG we are:
+* Enabling >2x higher performance than vector-based code alternatives
+* Enabling maximum achievable performance within practical implementation constraints (and enabling a range of efficient design points)
+* Consideration of not just the actual matrix operations, but also necessary supporting operations (e.g. packing/unpacking sub-matrices between memory and vector registers), when evaluating the performance potential of various IME options
+* Binary software portability across implementations with different vector lengths
+* IME instructions will be encoded as 32-bit instructions
+* Minimization of additional architectural (e.g. CSR) state and instructions (following the general philosophy of RISC-V)
+* Consider key low-level AI/ML and HPC benchmark kernels for early evaluation of options
+* Work with the AME TG to identify key higher-level AI/ML and HPC benchmarks, and to explore common software enablement issues
 
-* making progress towards the final goal (a RISC-V ISA matrix extension specification)   
-* avoiding the case that the TSC needs to reject the proposal because the idea has not been sufficiently discussed within the SIG.
-
-There is no damage to the goal or delay on the delivery of the final spec by discussing technical matters on the SIG, as long as there is continuous progress. Labeling a point in time as the “split” into a Task Group is orthogonal with making progress.
-
-Anyone wanting to contribute to the Integrated Matrix Facility task group should get involved as soon as possible at all levels (SIG or Task Group). Member companies are not expected to wait until the Vector SIG launches the Integrated Matrix Facility Task Group to get involved.
-
-== HPC’s GEMM as the use case for the extension
-
-The exemplar use case for the matrix extensions is BLAS-like GEMM operations, as seen on frameworks such as GotoBLAS, Intel’s MKL or BLIS. In line with that use case the software kernels that we are accelerating are based on the outer product of two small vectors (one column from A and one row from B). Any adopted solution must demonstrate the ability to achieve a very high percentage of peak performance on GEMM operations.
-
-The matrix extensions must also demonstrate good support for other important kernels, such as convolution, stencil operators, and discrete Fourier transform. Implementations of these kernels with the matrix extensions must be able to achieve performance improvements over the corresponding vector implementations.
-
-== Data types for HPC use cases
-
-In terms of data types, we need to support single- (32-bit) and double-precision (64-bit) IEEE floating-point numbers, both for the accumulators and the input operands. This requirement is in line with the kernels from the HPC benchmarking suites.
-
-== Neural network layers in deep learning
-
-Deep learning inference with fully-connected and convolutional layers can benefit from the infrastructure built for HPC’s GEMM. The support for machine learning inference comes with the requirement of adding lower precision data types.
-
-The added data types are those seen in popular inference frameworks such as Glow or TensorFlow, including: half-precision (16-bit) IEEE floating point, bfloat16, fp8 (in its different formats), intq8, uintq8, intq4 and uintq4 (quantized signed- and unsigned-integer numbers, possibly with both modular and saturating integer arithmetic).
-
-== Blue-print for the GEMM software kernel
-
-For a blue-print of the software kernel that we are accelerating we should look at the BLIS microkernel. The task group will deliver a GEMM kernel for BLIS using the new instructions and report the improvement compared to the existing RISC-V solution.
-
-The delivery of the BLIS kernel implies various dependencies and summarizes all the typical deliveries for a task group like the one being created:
-
-* specification of the operations,
-* instruction encoding,
-* compiler support,
-* simulation support,
-* library code development.
-
-== Guidelines for specification of matrix extension
-
-We want to respect the creative process of the resulting Task Group, while providing guidelines that will lead to a solution that fulfills the requirements for high-performance matrix computing in RISC-V.
-
-We are pursuing a Vector-based Matrix Extension. That is, matrix data is expected to reside in the existing scalable vector registers of the RISC-V Vector Extension. During the Vector-SIG meetings, we considered five options for storing matrices in the vector registers:
-
-* Option A: One matrix per vector registers.
-* Option B: One matrix in multiple vector registers.
-* Option C: Multiple matrices in one vector register.
-* Option D: Streaming buffers for the input matrices.
-* Option E: Variable matrix representation.
-
-The TG must consider at least these five options and it may consider any additional option as deemed appropriate for the goals of the Vector-based Matrix Extension. The resulting specification should propose just one format for storing matrices in vector registers. Additional formats can be considered in later extensions.
-
-The matrix storage format and the new instructions proposed in the specification should be developed considering the following goals in mind:
-
-. Full support for vector-length agnostic code at the binary level - executables must be portable across machines with different vector lengths, while exploiting the increased computational capacity of longer vectors.
-
-. Specify deterministic results for computations, including those performed with
-floating-point and saturating integer arithmetic.
-
-. The results of computations achieved with matrix extensions should be reproducible with plain scalar and/or vector code. (Note: This may require new scalar and/or vector instructions, as determined by the TG.)
-
-. The cost of any additional architected state introduced by a solution needs to be specified and analyzed in terms of cost/benefit.
-
-. Achievement of near peak (~90%) performance for GEMM kernels must be possible
-with reasonable implementations.
-
-. Achievement of higher (~2x) performance than vector alternatives for other kernels must be possible with reasonable implementations.
-
-. (Near) maximization of computational intensity (defined as the ratio of element-level multiply-add operations to element loads) for GEMM and other kernels. This is typically achieved when the resident panel of the result matrix is close to square.
-
-. (Near) minimization of additional architected state. The primary goal is to store the matrices in existing vector registers. Any additional state (e.g., for inputs, for behavior control, etc) must be considered carefully and properly justified.
-
-. Running threads using the Vector-based Matrix Extension must be able to
-live-migrate (migrate while running) to a processor with larger vector registers.
-Ideally, the migrated code would take advantage of the expanded registers as quickly as possible.
-
-. Proper support for packing routines. GEMM and other HPC kernels typically include a packing phase, which reformats data, before the computational phase. The
-overhead of the packing phase is necessary to achieve the highest performance in
-the computation phase, and the specification should include appropriate support to
-minimize that overhead.
-
-Additional information on performance guidelines: Solutions that follow the guidelines from the above section will be rated according to two architectural metrics, computed for the exemplar GEMM kernel. The metrics are architectural in the sense that they can be calculated for the architecture, irrespective of the microarchitecture:
-
-. Computational intensity: This (already stated above) is defined as the ratio of the number of element-level multiply-add operations to the number of elements loaded.
-
-. Maximum computation rate: The upper bound, as imposed by architectural
-characteristics, on the number of element-level multiply-add operations that can be completed per cycle. (Possibly parameterized on the parameter Δ - latency of an
-elemental multiply-add.)
-
-== Comments from Unprivileged Committee Chairs
-
-. Consider the commonality (or lack thereof) between solutions for HPC and DL.
-Ideally we would have a common solution, but we should not straightjacket either
-area.
-
-. Matrix extensions should work well with both in-order and out-of-order cores.
-
-. Specification should be cognizant of the additional requirements on vector registers that these extensions may impose. They must be compatible with current use of vector registers.
-
-. Investigate the value and cost of saturating integer arithmetic.
-
-. Investigate the value and cost of live migration across systems with different vector register sizes.
-
-. Matrix processing must offer significant performance gains over vector processing to justify the effort. Gains can be more modest for (the more costly) higher precision (e.g., 64- and 32-bit floating-point) but should be higher for lower precision (e.g., 16- and 8-bit floating-point).
+The IME TG will also collaborate with the Unpriv IC, the Apps & Tools Software HC, the Vector and AI/ML SIGs, the Unified Discovery TG, and any future “standard AI/ML performance primitives for IME/AME/RVV” TG
