@@ -40,8 +40,6 @@ class RVIME_t : public RV_t
     private:
         u32     SEW_;
         u32     LMUL_;
-        u32     RMUL_;
-        u32     CMUL_;
         u32     VL_;
         bool    altfmt_;
         union
@@ -101,16 +99,6 @@ class RVIME_t : public RV_t
             return LMUL_;
         }
 
-        u32& RMUL()
-        {
-            return RMUL_;
-        }
-
-        u32& CMUL()
-        {
-            return CMUL_;
-        }
-
         u32 VLEN() const
         {
             return VLEN_;
@@ -148,8 +136,6 @@ class RVIME_t : public RV_t
                     {
                         std::cout << "Each basic vfmmacc produces " << B << " vector registers of output" << std::endl;
                     }
-                    //for (u32 i=0; i<RMUL(); i++) for (u32 j=0; j<CMUL(); j++)
-                    //    vfmmacc_fp64(vd + B*i + B*j*RMUL(), vs1 + i, vs2 + j);
                     vfmmacc_fp64(vd, vs1, vs2);
                     break;
                 default:
