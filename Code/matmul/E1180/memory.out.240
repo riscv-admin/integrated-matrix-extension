@@ -1,0 +1,49 @@
+=========================================================================================================================
+Running on 240 threads
+Time to run               memory_load_1KiB (     1024 doubles) 134217728 times =   5.959116 seconds (4.428220e+04 GB/s)
+Time to run               memory_load_1KiB (     2048 doubles)  67108864 times =   5.526141 seconds (4.775173e+04 GB/s)
+Time to run               memory_load_1KiB (     4096 doubles)  33554432 times =   7.660071 seconds (3.444913e+04 GB/s)
+Time to run               memory_load_1KiB (     8192 doubles)  16777216 times =   8.607485 seconds (3.065736e+04 GB/s)
+Time to run               memory_load_1KiB (    16384 doubles)   8388608 times =   8.172158 seconds (3.229047e+04 GB/s)
+Time to run               memory_load_1KiB (    32768 doubles)   4194304 times =   8.066794 seconds (3.271222e+04 GB/s)
+Time to run               memory_load_1KiB (    65536 doubles)   2097152 times =   7.938585 seconds (3.324053e+04 GB/s)
+Time to run               memory_load_1KiB (   131072 doubles)   1048576 times =   9.813035 seconds (2.689105e+04 GB/s)
+Time to run               memory_load_1KiB (   262144 doubles)    524288 times =  10.106300 seconds (2.611072e+04 GB/s)
+Time to run               memory_load_1KiB (   524288 doubles)    262144 times = 154.123605 seconds (1.712150e+03 GB/s)
+Time to run               memory_load_1KiB (  1048576 doubles)    131072 times = 1291.481743 seconds (2.043256e+02 GB/s)
+Time to run               memory_load_1KiB (  2097152 doubles)     65536 times = 347.159119 seconds (7.601206e+02 GB/s)
+Time to run               memory_load_1KiB (  4194304 doubles)     32768 times = 392.382881 seconds (6.725135e+02 GB/s)
+Time to run               memory_load_1KiB (  8388608 doubles)     16384 times = 238.673959 seconds (1.105620e+03 GB/s)
+Time to run               memory_load_1KiB ( 16777216 doubles)      8192 times = 302.632688 seconds (8.719573e+02 GB/s)
+Time to run               memory_load_1KiB ( 33554432 doubles)      4096 times = 318.995652 seconds (8.272301e+02 GB/s)
+Time to run               memory_load_1KiB ( 67108864 doubles)      2048 times = 279.386916 seconds (9.445066e+02 GB/s)
+Time to run               memory_load_1KiB (134217728 doubles)      1024 times = 342.172903 seconds (7.711972e+02 GB/s)
+Time to run               memory_load_1KiB (268435456 doubles)       512 times = 249.593237 seconds (1.057251e+03 GB/s)
+Time to run               memory_load_1KiB (536870912 doubles)       256 times = 495.277307 seconds (5.327981e+02 GB/s)
+
+ Performance counter stats for './memory':
+
+    759,442,091.32 msec task-clock:u                     #  107.368 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+        83,783,696      page-faults:u                    #  110.323 /sec                      
+209,858,756,041,982      instructions:u                   #    0.07  insn per cycle              (38.46%)
+3,197,352,195,199,951      cycles:u                         #    4.210 GHz                         (46.15%)
+ 8,906,617,022,335      branches:u                       #   11.728 M/sec                       (46.15%)
+    17,403,875,666      branch-misses:u                  #    0.20% of all branches             (46.15%)
+173,824,487,046,903      L1-dcache-loads:u                #  228.884 M/sec                       (38.46%)
+ 8,775,961,123,198      L1-dcache-load-misses:u          #    5.05% of all L1-dcache accesses   (15.38%)
+ 3,324,392,604,955      LLC-loads:u                      #    4.377 M/sec                       (15.38%)
+ 1,545,414,746,171      LLC-load-misses:u                #   46.49% of all LL-cache accesses    (15.38%)
+37,616,290,231,353      L1-icache-loads:u                #   49.531 M/sec                       (23.08%)
+     1,387,592,478      L1-icache-load-misses:u          #    0.00% of all L1-icache accesses   (30.77%)
+       251,612,111      dTLB-load-misses:u                                                      (23.08%)
+        25,362,484      iTLB-load-misses:u                                                      (30.77%)
+27,717,605,701,417      L1-dcache-prefetches:u           #   36.497 M/sec                       (30.77%)
+
+    7073.258231076 seconds time elapsed
+
+  752409.144213000 seconds user
+    7021.851709000 seconds sys
+
+
