@@ -1526,6 +1526,7 @@ double run_kernel
     std::vector<double*> D(nthreads);
 
     const uint32_t N = 1024*1024;
+#pragma omp parallel for schedule(static,1)
     for (int j=0; j<nthreads; j++)
     {
 	A[j] = (double*)aligned_alloc(4096, sizeof(double) * N); for (uint32_t i=0; i<N; i++) A[j][i] = drand48() - 0.5;
@@ -1537,7 +1538,7 @@ double run_kernel
     volatile double start, finish;
 
     start = now();
-#pragma omp parallel for
+#pragma omp parallel for schedule(static,1)
     for (int j=0; j<nthreads; j++)
     {
 	for(uint32_t reps = count; reps; reps -= COUNT)
@@ -1598,7 +1599,11 @@ int main
 
     volatile double elapsed;
     
+    int nthreads = omp_get_max_threads();
     std::cout << "=========================================================================================================================" << std::endl;
+    std::cout << "Running on " << nthreads << ((nthreads > 1) ? " threads" : " thread") << std::endl;
+    std::cout << "OMP_NUM_THREADS=" << getenv("OMP_NUM_THREADS") << std::endl;
+    std::cout << "GOMP_CPU_AFFINITY=" << getenv("GOMP_CPU_AFFINITY") << std::endl;
 
     RUN_KERNEL(matmul_8x8x8_col_row                               , matmul_8x8x8_col_row_count  ,  8, 8,  8);
     RUN_KERNEL(matmul_8x8x8_col_col                               , matmul_8x8x8_col_col_count  ,  8, 8,  8);
