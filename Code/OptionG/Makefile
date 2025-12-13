@@ -1,3 +1,4 @@
+.SUFFIXES:
 CC  = gcc
 CXX = g++
 
@@ -15,12 +16,8 @@ matmul_v3.out : matmul_v3
 % : %.o
 	$(CXX) $< -o $@
 
-memory : memory.o
-	$(CXX) $< -o $@
-
 %.o : %.cc
 	$(CXX) -O2 -fno-unroll-loops -c $<
-	$(CXX) -g -c $<
 
 %.s : %.o
 	objdump -D $< > $@
