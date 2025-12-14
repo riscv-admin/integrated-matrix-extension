@@ -576,36 +576,36 @@ void microdgemm
     double *B0 = B; double *B1 = B0 + RV->VLENE();             double *B2 = B1 + RV->VLENE(); double *B3 = B2 + RV->VLENE();
     for (u32 k=0; k<K; k+=lambda_eff)
     {
-        std::cout << "k = " << k << std::endl;
+        if (debug > 1) { std::cout << "k = " << k << std::endl; }
 
-        vmtlfre64.v( 0, A0, lambda_eff); { std::cout << "VR[ 0] = "; RV->printVRf64( 0); }
-        vmtlfre64.v( 1, A1, lambda_eff); { std::cout << "VR[ 1] = "; RV->printVRf64( 1); }
-        vmtlfre64.v( 2, A2, lambda_eff); { std::cout << "VR[ 2] = "; RV->printVRf64( 2); }
-        vmtlfre64.v( 3, A3, lambda_eff); { std::cout << "VR[ 3] = "; RV->printVRf64( 3); }
-        vmtlfre64.v( 8, B0, lambda_eff); { std::cout << "VR[ 8] = "; RV->printVRf64( 8); }
-        vmtlfre64.v( 9, B1, lambda_eff); { std::cout << "VR[ 9] = "; RV->printVRf64( 9); }
-        vmtlfre64.v(10, B2, lambda_eff); { std::cout << "VR[10] = "; RV->printVRf64(10); }
-        vmtlfre64.v(11, B3, lambda_eff); { std::cout << "VR[11] = "; RV->printVRf64(11); }
+        vmtlfre64.v( 0, A0, lambda_eff); if (debug > 1) { std::cout << "VR[ 0] = "; RV->printVRf64( 0); }
+        vmtlfre64.v( 1, A1, lambda_eff); if (debug > 1) { std::cout << "VR[ 1] = "; RV->printVRf64( 1); }
+        vmtlfre64.v( 2, A2, lambda_eff); if (debug > 1) { std::cout << "VR[ 2] = "; RV->printVRf64( 2); }
+        vmtlfre64.v( 3, A3, lambda_eff); if (debug > 1) { std::cout << "VR[ 3] = "; RV->printVRf64( 3); }
+        vmtlfre64.v( 8, B0, lambda_eff); if (debug > 1) { std::cout << "VR[ 8] = "; RV->printVRf64( 8); }
+        vmtlfre64.v( 9, B1, lambda_eff); if (debug > 1) { std::cout << "VR[ 9] = "; RV->printVRf64( 9); }
+        vmtlfre64.v(10, B2, lambda_eff); if (debug > 1) { std::cout << "VR[10] = "; RV->printVRf64(10); }
+        vmtlfre64.v(11, B3, lambda_eff); if (debug > 1) { std::cout << "VR[11] = "; RV->printVRf64(11); }
 
         A0 = A0 + INCA ; A1 = A1 + INCA ; A2 = A2 + INCA ; A3 = A3 + INCA;
         B0 = B0 + INCB ; B1 = B1 + INCB ; B2 = B2 + INCB ; B3 = B3 + INCB;
 
-        vfmmacc.v0(16,  0,  8); vmrotate.vv( 8,  8); { std::cout << "VR[16] = "; RV->printVRf64(16); }
-        vfmmacc.v0(17,  0,  9); vmrotate.vv( 9,  9); { std::cout << "VR[17] = "; RV->printVRf64(17); }
-        vfmmacc.v0(18,  1,  8); vmrotate.vv( 8,  8); { std::cout << "VR[18] = "; RV->printVRf64(18); }
-        vfmmacc.v0(19,  1,  9); vmrotate.vv( 9,  9); { std::cout << "VR[19] = "; RV->printVRf64(19); }
-        vfmmacc.v0(20,  0, 10); vmrotate.vv(10, 10); { std::cout << "VR[20] = "; RV->printVRf64(20); }
-        vfmmacc.v0(21,  0, 11); vmrotate.vv(11, 11); { std::cout << "VR[21] = "; RV->printVRf64(21); }
-        vfmmacc.v0(22,  1, 10); vmrotate.vv(10, 10); { std::cout << "VR[22] = "; RV->printVRf64(22); }
-        vfmmacc.v0(23,  1, 11); vmrotate.vv(11, 11); { std::cout << "VR[23] = "; RV->printVRf64(23); }
-        vfmmacc.v0(24,  2,  8); vmrotate.vv( 8,  8); { std::cout << "VR[24] = "; RV->printVRf64(24); }
-        vfmmacc.v0(25,  2,  9); vmrotate.vv( 9,  9); { std::cout << "VR[25] = "; RV->printVRf64(25); }
-        vfmmacc.v0(26,  3,  8); vmrotate.vv( 8,  8); { std::cout << "VR[26] = "; RV->printVRf64(26); }
-        vfmmacc.v0(27,  3,  9); vmrotate.vv( 9,  9); { std::cout << "VR[27] = "; RV->printVRf64(27); }
-        vfmmacc.v0(28,  2, 10); vmrotate.vv(10, 10); { std::cout << "VR[28] = "; RV->printVRf64(28); }
-        vfmmacc.v0(29,  2, 11); vmrotate.vv(11, 11); { std::cout << "VR[29] = "; RV->printVRf64(29); }
-        vfmmacc.v0(30,  3, 10); vmrotate.vv(10, 10); { std::cout << "VR[30] = "; RV->printVRf64(30); }
-        vfmmacc.v0(31,  3, 11); vmrotate.vv(11, 11); { std::cout << "VR[31] = "; RV->printVRf64(31); }
+        vfmmacc.v0(16,  0,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[16] = "; RV->printVRf64(16); }
+        vfmmacc.v0(17,  0,  9); vmrotate.vv( 9,  9); if (debug > 1) { std::cout << "VR[17] = "; RV->printVRf64(17); }
+        vfmmacc.v0(18,  1,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[18] = "; RV->printVRf64(18); }
+        vfmmacc.v0(19,  1,  9); vmrotate.vv( 9,  9); if (debug > 1) { std::cout << "VR[19] = "; RV->printVRf64(19); }
+        vfmmacc.v0(20,  0, 10); vmrotate.vv(10, 10); if (debug > 1) { std::cout << "VR[20] = "; RV->printVRf64(20); }
+        vfmmacc.v0(21,  0, 11); vmrotate.vv(11, 11); if (debug > 1) { std::cout << "VR[21] = "; RV->printVRf64(21); }
+        vfmmacc.v0(22,  1, 10); vmrotate.vv(10, 10); if (debug > 1) { std::cout << "VR[22] = "; RV->printVRf64(22); }
+        vfmmacc.v0(23,  1, 11); vmrotate.vv(11, 11); if (debug > 1) { std::cout << "VR[23] = "; RV->printVRf64(23); }
+        vfmmacc.v0(24,  2,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[24] = "; RV->printVRf64(24); }
+        vfmmacc.v0(25,  2,  9); vmrotate.vv( 9,  9); if (debug > 1) { std::cout << "VR[25] = "; RV->printVRf64(25); }
+        vfmmacc.v0(26,  3,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[26] = "; RV->printVRf64(26); }
+        vfmmacc.v0(27,  3,  9); vmrotate.vv( 9,  9); if (debug > 1) { std::cout << "VR[27] = "; RV->printVRf64(27); }
+        vfmmacc.v0(28,  2, 10); vmrotate.vv(10, 10); if (debug > 1) { std::cout << "VR[28] = "; RV->printVRf64(28); }
+        vfmmacc.v0(29,  2, 11); vmrotate.vv(11, 11); if (debug > 1) { std::cout << "VR[29] = "; RV->printVRf64(29); }
+        vfmmacc.v0(30,  3, 10); vmrotate.vv(10, 10); if (debug > 1) { std::cout << "VR[30] = "; RV->printVRf64(30); }
+        vfmmacc.v0(31,  3, 11); vmrotate.vv(11, 11); if (debug > 1) { std::cout << "VR[31] = "; RV->printVRf64(31); }
     }
 
     u32 offset[32];
@@ -626,7 +626,7 @@ void microdgemm
     offset[30] = (1 != lmul) ? (offset[29] + RV->lambda()) : (LisSquare() ? offset[28] + RV->lambda() * gamma : offset[28] + RV->lambda());
     offset[31] = ((!LisSquare()) && (1 == lmul)) ? offset[29] + RV->lambda() : offset[30] + RV->lambda();
 
-    for (u32 i=16; i<32; i++) std::cout << "offset[" << i << "] = " << offset[i] << std::endl;
+    if (debug > 1) { for (u32 i=16; i<32; i++) std::cout << "offset[" << i << "] = " << offset[i] << std::endl; }
 
     double *D = new double[M*N];
     vsetvl(5, 0, 64, 1, true, true);                                    // double-precision kernel, set VL to VLENE and LMUL to 1
@@ -655,8 +655,8 @@ void microdgemm
     }
     for (u32 i=0; i<M; i++) for (u32 j=0; j<N; j++) C[i*gamma + j] += alpha * S[i*N + j];
 
-    std::cout << "S = "; print(M, N, S);
-    std::cout << "D = "; print(M, N, D);
+    if (debug > 1) { std::cout << "S = "; print(M, N, S); }
+    if (debug > 1) { std::cout << "D = "; print(M, N, D); }
 
     for (u32 i=0; i<M; i++) for (u32 j=0; j<N; j++) if (D[i*N+j] != S[i*N+j]) { std::cout << "Error for D[" << i << "," << j << "] = " << D[i*N+j] << " != " << S[i*N+j] << std::endl; exit(-1); }
     for (u32 i=0; i<M; i++) for (u32 j=0; j<N; j++) if (E[i*N+j] != C[i*N+j]) { std::cout << "Error for E[" << i << "," << j << "] = " << E[i*N+j] << " != " << C[i*N+j] << std::endl; exit(-1); }
@@ -757,7 +757,7 @@ bool run_microgemm
     u32 M = mu;
     u32 N = nu;
 
-    double alpha = 3.141592654; alpha = 1.0;
+    double alpha = 3.141592654; // alpha = 1.0;
 
     // Allocate A, B, and C panels
     double *A = new double[M*K]; for (u32 i=0; i<M*K; i++) A[i] = i; // drand48() - 0.5;
@@ -765,8 +765,8 @@ bool run_microgemm
     double *C = new double[M*N]; for (u32 i=0; i<M*N; i++) C[i] = 0; // drand48() - 0.5;
     double *D = new double[M*N]; for (u32 i=0; i<M*N; i++) D[i] = C[i];
 
-    std::cout << "A = "; print(M, K, A);
-    std::cout << "B = "; print(N, K, B);
+    if (debug > 1) { std::cout << "A = "; print(M, K, A); }
+    if (debug > 1) { std::cout << "B = "; print(N, K, B); }
 
     // Allocate the packed panels
     double *Ap = new double[M*K];
@@ -780,8 +780,8 @@ bool run_microgemm
 
     for (u32 k=0; k<K; k+=lambda_eff)
     {
-        std::cout << "Ap[" << k/lambda_eff << "] = "; print(M, lambda_eff, Ap+k*mu);
-        std::cout << "Bp[" << k/lambda_eff << "] = "; print(N, lambda_eff, Bp+k*nu);
+        if (debug > 1) { std::cout << "Ap[" << k/lambda_eff << "] = "; print(M, lambda_eff, Ap+k*mu); }
+        if (debug > 1) { std::cout << "Bp[" << k/lambda_eff << "] = "; print(N, lambda_eff, Bp+k*nu); }
     }
 
     microdgemm(M, N, K, Ap, Bp, alpha, D, N, LMUL);
@@ -856,9 +856,12 @@ int main
     run_microgemm<1024, 4>(4);
     run_microgemm<1024, 4>(8);
     run_microgemm<1024, 4>(16);
+    run_microgemm<2048, 2>(8);
+    run_microgemm<2048, 2>(16);
     run_microgemm<2048, 4>(8);
     run_microgemm<2048, 4>(16);
-    run_microgemm<4096, 4>(8);
+    run_microgemm<4096, 2>(16);
+    run_microgemm<4096, 4>(16);
     run_microgemm<4096, 8>(16);
 
     return 0;
