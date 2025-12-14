@@ -535,7 +535,22 @@ u32 LisSquare()
     else return 0;
 }
 
-void microdgemm
+template<typename T>
+void microgemm
+(
+    u32     M,
+    u32     N,
+    u32     K,
+    T      *A,
+    T      *B,
+    T       alpha,
+    T      *C,
+    s32     gamma,
+    u32     lmul
+);
+
+template<>
+void microgemm<double>
 (
     u32     M,
     u32     N,
@@ -548,32 +563,32 @@ void microdgemm
     u32     lmul
 )
 {
-    u32 L = RV->VLENE();						// L is number of elements per vector register
-    u32 lambda_eff = RV->lambda() * lmul;				// lambda_eff is the maximum lambda for this L
+    u32 L = RV->VLENE();                                                // L is number of elements per vector register
+    u32 lambda_eff = RV->lambda() * lmul;                               // lambda_eff is the maximum lambda for this L
     assert(0 == K % lambda_eff);                                        // for simplicty, K must be a multiple of lambda_eff
 
     vsetvl(5, 0, 64, 1, true, true);                                    // double-precision kernel, set VL to VLENE and LMUL to 1
     for (u32 r=16; r<32; r++) vxor.vv(r, r, r);                         // T = 0
 
     vsetvl(5, RV->lambda() * RV->lambda(), 64, lmul, true, true);       // double-precision kernel, set VL to lambda^2 and LMUL accordingly
-    s32 INCA = M*lambda_eff; s32 INCB = N*lambda_eff;			// iteration increments for A and B panels
+    s32 INCA = M*lambda_eff; s32 INCB = N*lambda_eff;                   // iteration increments for A and B panels
 
     // the following setup for the A and B register load pointers works because not all loads are active for all values of lmul
-    double *A0 = A; double *A1 = A0 + LisSquare() * L; double *A2 = A1 + ((2 == lmul) ? LisSquare() * L : L); double *A3 = A2 + LisSquare() * L;	// pointers for loads to the A registers
-    double *B0 = B; double *B1 = B0 + L;               double *B2 = B1 + L;                                   double *B3 = B2 + L;			// pointers for loads to the B registers
+    double *A0 = A; double *A1 = A0 + LisSquare() * L; double *A2 = A1 + ((2 == lmul) ? LisSquare() * L : L); double *A3 = A2 + LisSquare() * L;        // pointers for loads to the A registers
+    double *B0 = B; double *B1 = B0 + L;               double *B2 = B1 + L;                                   double *B3 = B2 + L;                      // pointers for loads to the B registers
 
     // the computation loop
     for (u32 k=0; k<K; k+=lambda_eff)
     {
         if (debug > 1) { std::cout << "k = " << k << std::endl; }
 
-	// load the 4 A registers
+        // load the 4 A registers
         vmtlfre64.v( 0, A0, lambda_eff); if (debug > 1) { std::cout << "VR[ 0] = "; RV->printVRf64( 0); }
         vmtlfre64.v( 1, A1, lambda_eff); if (debug > 1) { std::cout << "VR[ 1] = "; RV->printVRf64( 1); }
         vmtlfre64.v( 2, A2, lambda_eff); if (debug > 1) { std::cout << "VR[ 2] = "; RV->printVRf64( 2); }
         vmtlfre64.v( 3, A3, lambda_eff); if (debug > 1) { std::cout << "VR[ 3] = "; RV->printVRf64( 3); }
 
-	// load the 4 B registers
+        // load the 4 B registers
         vmtlfre64.v( 8, B0, lambda_eff); if (debug > 1) { std::cout << "VR[ 8] = "; RV->printVRf64( 8); }
         vmtlfre64.v( 9, B1, lambda_eff); if (debug > 1) { std::cout << "VR[ 9] = "; RV->printVRf64( 9); }
         vmtlfre64.v(10, B2, lambda_eff); if (debug > 1) { std::cout << "VR[10] = "; RV->printVRf64(10); }
@@ -582,7 +597,7 @@ void microdgemm
         A0 = A0 + INCA ; A1 = A1 + INCA ; A2 = A2 + INCA ; A3 = A3 + INCA;  // increment pointers for the A registers
         B0 = B0 + INCB ; B1 = B1 + INCB ; B2 = B2 + INCB ; B3 = B3 + INCB;  // increment pointers for the B registers
 
-	// perform 16 vmmacc's, one for each target register
+        // perform 16 vmmacc's, one for each target register
         vfmmacc.v0(16,  0,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[16] = "; RV->printVRf64(16); }
         vfmmacc.v0(17,  0,  9); vmrotate.vv( 9,  9); if (debug > 1) { std::cout << "VR[17] = "; RV->printVRf64(17); }
         vfmmacc.v0(18,  1,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[18] = "; RV->printVRf64(18); }
@@ -627,13 +642,13 @@ void microdgemm
     vsetvl(5, 0, 64, 1, true, true);                                    // double-precision kernel, set VL to VLENE and LMUL to 1
     for (u32 vd=0; vd<16; vd++)
     {
-        vmtlfre64.v(vd, C+offset[vd+16], N);				// C[i,j] = alpha * T[i,j] + C[i,j]
+        vmtlfre64.v(vd, C+offset[vd+16], N);                            // C[i,j] = alpha * T[i,j] + C[i,j]
         vfmacc.vf(vd, alpha, vd+16);
         vmtsfre64.v(vd, C+offset[vd+16], N);
     }
 }
 
-void microdgemm_old
+void microdgemm
 (
     u32 M,
     u32 N,
@@ -882,7 +897,7 @@ bool run_microgemm
         if (debug > 1) { std::cout << "Bp[" << k/lambda_eff << "] = "; print(N, lambda_eff, Bp+k*nu); }
     }
 
-    microdgemm(M, N, K, Ap, Bp, alpha, D, N, LMUL);
+    microgemm<double>(M, N, K, Ap, Bp, alpha, D, N, LMUL);
 
     // Check the result
     for (u32 j=0; j<N; j++)
