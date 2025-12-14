@@ -528,14 +528,112 @@ vmtlfre64_t     vmtlfre64;
 vmtsfre64_t     vmtsfre64;
 vmrotate_t      vmrotate;
 
-bool LisSquare()
+u32 LisSquare()
 {
     double rootL = sqrt(RV->VLENE());
-    if ((rootL*rootL) == RV->VLENE()) return true;
-    else return false;
+    if ((rootL*rootL) == RV->VLENE()) return 1;
+    else return 0;
 }
 
 void microdgemm
+(
+    u32     M,
+    u32     N,
+    u32     K,
+    double *A,
+    double *B,
+    double  alpha,
+    double *C,
+    s32     gamma,
+    u32     lmul
+)
+{
+    u32 L = RV->VLENE();						// L is number of elements per vector register
+    u32 lambda_eff = RV->lambda() * lmul;				// lambda_eff is the maximum lambda for this L
+    assert(0 == K % lambda_eff);                                        // for simplicty, K must be a multiple of lambda_eff
+
+    vsetvl(5, 0, 64, 1, true, true);                                    // double-precision kernel, set VL to VLENE and LMUL to 1
+    for (u32 r=16; r<32; r++) vxor.vv(r, r, r);                         // T = 0
+
+    vsetvl(5, RV->lambda() * RV->lambda(), 64, lmul, true, true);       // double-precision kernel, set VL to lambda^2 and LMUL accordingly
+    s32 INCA = M*lambda_eff; s32 INCB = N*lambda_eff;			// iteration increments for A and B panels
+
+    // the following setup for the A and B register load pointers works because not all loads are active for all values of lmul
+    double *A0 = A; double *A1 = A0 + LisSquare() * L; double *A2 = A1 + ((2 == lmul) ? LisSquare() * L : L); double *A3 = A2 + LisSquare() * L;	// pointers for loads to the A registers
+    double *B0 = B; double *B1 = B0 + L;               double *B2 = B1 + L;                                   double *B3 = B2 + L;			// pointers for loads to the B registers
+
+    // the computation loop
+    for (u32 k=0; k<K; k+=lambda_eff)
+    {
+        if (debug > 1) { std::cout << "k = " << k << std::endl; }
+
+	// load the 4 A registers
+        vmtlfre64.v( 0, A0, lambda_eff); if (debug > 1) { std::cout << "VR[ 0] = "; RV->printVRf64( 0); }
+        vmtlfre64.v( 1, A1, lambda_eff); if (debug > 1) { std::cout << "VR[ 1] = "; RV->printVRf64( 1); }
+        vmtlfre64.v( 2, A2, lambda_eff); if (debug > 1) { std::cout << "VR[ 2] = "; RV->printVRf64( 2); }
+        vmtlfre64.v( 3, A3, lambda_eff); if (debug > 1) { std::cout << "VR[ 3] = "; RV->printVRf64( 3); }
+
+	// load the 4 B registers
+        vmtlfre64.v( 8, B0, lambda_eff); if (debug > 1) { std::cout << "VR[ 8] = "; RV->printVRf64( 8); }
+        vmtlfre64.v( 9, B1, lambda_eff); if (debug > 1) { std::cout << "VR[ 9] = "; RV->printVRf64( 9); }
+        vmtlfre64.v(10, B2, lambda_eff); if (debug > 1) { std::cout << "VR[10] = "; RV->printVRf64(10); }
+        vmtlfre64.v(11, B3, lambda_eff); if (debug > 1) { std::cout << "VR[11] = "; RV->printVRf64(11); }
+
+        A0 = A0 + INCA ; A1 = A1 + INCA ; A2 = A2 + INCA ; A3 = A3 + INCA;  // increment pointers for the A registers
+        B0 = B0 + INCB ; B1 = B1 + INCB ; B2 = B2 + INCB ; B3 = B3 + INCB;  // increment pointers for the B registers
+
+	// perform 16 vmmacc's, one for each target register
+        vfmmacc.v0(16,  0,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[16] = "; RV->printVRf64(16); }
+        vfmmacc.v0(17,  0,  9); vmrotate.vv( 9,  9); if (debug > 1) { std::cout << "VR[17] = "; RV->printVRf64(17); }
+        vfmmacc.v0(18,  1,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[18] = "; RV->printVRf64(18); }
+        vfmmacc.v0(19,  1,  9); vmrotate.vv( 9,  9); if (debug > 1) { std::cout << "VR[19] = "; RV->printVRf64(19); }
+        vfmmacc.v0(20,  0, 10); vmrotate.vv(10, 10); if (debug > 1) { std::cout << "VR[20] = "; RV->printVRf64(20); }
+        vfmmacc.v0(21,  0, 11); vmrotate.vv(11, 11); if (debug > 1) { std::cout << "VR[21] = "; RV->printVRf64(21); }
+        vfmmacc.v0(22,  1, 10); vmrotate.vv(10, 10); if (debug > 1) { std::cout << "VR[22] = "; RV->printVRf64(22); }
+        vfmmacc.v0(23,  1, 11); vmrotate.vv(11, 11); if (debug > 1) { std::cout << "VR[23] = "; RV->printVRf64(23); }
+        vfmmacc.v0(24,  2,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[24] = "; RV->printVRf64(24); }
+        vfmmacc.v0(25,  2,  9); vmrotate.vv( 9,  9); if (debug > 1) { std::cout << "VR[25] = "; RV->printVRf64(25); }
+        vfmmacc.v0(26,  3,  8); vmrotate.vv( 8,  8); if (debug > 1) { std::cout << "VR[26] = "; RV->printVRf64(26); }
+        vfmmacc.v0(27,  3,  9); vmrotate.vv( 9,  9); if (debug > 1) { std::cout << "VR[27] = "; RV->printVRf64(27); }
+        vfmmacc.v0(28,  2, 10); vmrotate.vv(10, 10); if (debug > 1) { std::cout << "VR[28] = "; RV->printVRf64(28); }
+        vfmmacc.v0(29,  2, 11); vmrotate.vv(11, 11); if (debug > 1) { std::cout << "VR[29] = "; RV->printVRf64(29); }
+        vfmmacc.v0(30,  3, 10); vmrotate.vv(10, 10); if (debug > 1) { std::cout << "VR[30] = "; RV->printVRf64(30); }
+        vfmmacc.v0(31,  3, 11); vmrotate.vv(11, 11); if (debug > 1) { std::cout << "VR[31] = "; RV->printVRf64(31); }
+    }
+
+    // compute the store offsets for each result register - this only has to be done once per <L,lambda> configuration
+    // the offset vector only needs 16 elements - we use 32 for convenience and will cleanup later
+    u32 offset[32];
+    offset[16] = 0;
+    offset[17] = offset[16] + (((!LisSquare()) && (1 == lmul)) ? 2 * RV->lambda() : RV->lambda());
+    offset[18] = (1 != lmul) ? (offset[17] + RV->lambda()) : (LisSquare() ? offset[16] + RV->lambda() * gamma : offset[16] + RV->lambda());
+    offset[19] = ((!LisSquare()) && (1 == lmul)) ? offset[17] + RV->lambda() : offset[18] + RV->lambda();
+    offset[20] = (4 == lmul) ? (offset[16] + 4*RV->lambda()) : offset[16] + (2*RV->sigma())/lmul;
+    offset[21] = offset[20] + (((!LisSquare()) && (1 == lmul)) ? 2 * RV->lambda() : RV->lambda());
+    offset[22] = (1 != lmul) ? (offset[21] + RV->lambda()) : (LisSquare() ? offset[20] + RV->lambda() * gamma : offset[20] + RV->lambda());
+    offset[23] = ((!LisSquare()) && (1 == lmul)) ? offset[21] + RV->lambda() : offset[22] + RV->lambda();
+    offset[24] = (4 == lmul) ? (offset[16] + 8*RV->lambda()) : ((LisSquare() || (1 == lmul)) ? gamma * (M/2) : offset[16] + 4*RV->lambda());
+    offset[25] = offset[24] + (((!LisSquare()) && (1 == lmul)) ? 2 * RV->lambda() : RV->lambda());
+    offset[26] = (1 != lmul) ? (offset[25] + RV->lambda()) : (LisSquare() ? offset[24] + RV->lambda() * gamma : offset[24] + RV->lambda());
+    offset[27] = ((!LisSquare()) && (1 == lmul)) ? offset[25] + RV->lambda() : offset[26] + RV->lambda();
+    offset[28] = (4 == lmul) ? (offset[24] + 4*RV->lambda()) : offset[24] + (2*RV->sigma())/lmul;
+    offset[29] = offset[28] + (((!LisSquare()) && (1 == lmul)) ? 2 * RV->lambda() : RV->lambda());
+    offset[30] = (1 != lmul) ? (offset[29] + RV->lambda()) : (LisSquare() ? offset[28] + RV->lambda() * gamma : offset[28] + RV->lambda());
+    offset[31] = ((!LisSquare()) && (1 == lmul)) ? offset[29] + RV->lambda() : offset[30] + RV->lambda();
+
+    if (debug > 1) { for (u32 i=16; i<32; i++) std::cout << "offset[" << i << "] = " << offset[i] << std::endl; }
+
+    // do the scaling by alpha and update C
+    vsetvl(5, 0, 64, 1, true, true);                                    // double-precision kernel, set VL to VLENE and LMUL to 1
+    for (u32 vd=0; vd<16; vd++)
+    {
+        vmtlfre64.v(vd, C+offset[vd+16], N);				// C[i,j] = alpha * T[i,j] + C[i,j]
+        vfmacc.vf(vd, alpha, vd+16);
+        vmtsfre64.v(vd, C+offset[vd+16], N);
+    }
+}
+
+void microdgemm_old
 (
     u32 M,
     u32 N,
@@ -746,13 +844,13 @@ bool run_microgemm
     u32 lambda_eff = 1;
     while ((2*lambda_eff)*(2*lambda_eff) <= L) lambda_eff *= 2;
     u32 LMUL = lambda_eff / lambda;
-    std::cout << "L = " << std::setw(2) << L << ", lambda = " << std::setw(2) << RV->lambda() << ", sigma = " << std::setw(2) << RV->sigma() << ", lambda_eff = " << std::setw(2) << lambda_eff << ", LMUL = " << LMUL;
+    std::cout << "L = " << std::setw(4) << L << ", lambda = " << std::setw(2) << RV->lambda() << ", sigma = " << std::setw(3) << RV->sigma() << ", lambda_eff = " << std::setw(2) << lambda_eff << ", LMUL = " << LMUL;
     std::cout << ", RMUL = " << std::setw(2) << rmul << ", CMUL = " << std::setw(2) << cmul;
 
     u32 mu = rmul*RV->sigma();
     u32 nu = cmul*RV->sigma();
 
-    std::cout << ", mu = " << std::setw(3) << mu << ", nu =  " << std::setw(3) << nu << ", K = " << K << std::endl;
+    std::cout << ", mu = " << std::setw(3) << mu << ", nu =  " << std::setw(3) << nu << ", K = " << std::setw(3) << K << std::endl;
 
     u32 M = mu;
     u32 N = nu;
@@ -826,43 +924,53 @@ int main
     char      **argv
 )
 {
-    std::cout << "=========================================================================================================================" << std::endl;
-    run_microgemm<  64, 1>(1);
-    run_microgemm<  64, 1>(2);
-    run_microgemm<  64, 1>(4);
-    run_microgemm<  64, 1>(8);
-    run_microgemm< 128, 1>(1);
-    run_microgemm< 128, 1>(2);
-    run_microgemm< 128, 1>(4);
-    run_microgemm< 128, 1>(8);
-    run_microgemm< 256, 1>(2);
-    run_microgemm< 256, 1>(4);
-    run_microgemm< 256, 1>(8);
-    run_microgemm< 256, 2>(2);
-    run_microgemm< 256, 2>(4);
-    run_microgemm< 256, 2>(8);
-    run_microgemm< 512, 1>(2);
-    run_microgemm< 512, 1>(4);
-    run_microgemm< 512, 1>(8);
-    run_microgemm< 512, 2>(2);
-    run_microgemm< 512, 2>(4);
-    run_microgemm< 512, 2>(8);
-    run_microgemm<1024, 1>(4);
-    run_microgemm<1024, 1>(8);
-    run_microgemm<1024, 1>(16);
-    run_microgemm<1024, 2>(4);
-    run_microgemm<1024, 2>(8);
-    run_microgemm<1024, 2>(16);
-    run_microgemm<1024, 4>(4);
-    run_microgemm<1024, 4>(8);
-    run_microgemm<1024, 4>(16);
-    run_microgemm<2048, 2>(8);
-    run_microgemm<2048, 2>(16);
-    run_microgemm<2048, 4>(8);
-    run_microgemm<2048, 4>(16);
-    run_microgemm<4096, 2>(16);
-    run_microgemm<4096, 4>(16);
-    run_microgemm<4096, 8>(16);
+    std::cout << "=================================================================================================================" << std::endl;
+    run_microgemm<   64, 1>( 1);
+    run_microgemm<   64, 1>( 2);
+    run_microgemm<   64, 1>( 4);
+    run_microgemm<   64, 1>( 8);
+    run_microgemm<  128, 1>( 1);
+    run_microgemm<  128, 1>( 2);
+    run_microgemm<  128, 1>( 4);
+    run_microgemm<  128, 1>( 8);
+    run_microgemm<  256, 1>( 2);
+    run_microgemm<  256, 1>( 4);
+    run_microgemm<  256, 1>( 8);
+    run_microgemm<  256, 2>( 2);
+    run_microgemm<  256, 2>( 4);
+    run_microgemm<  256, 2>( 8);
+    run_microgemm<  512, 1>( 2);
+    run_microgemm<  512, 1>( 4);
+    run_microgemm<  512, 1>( 8);
+    run_microgemm<  512, 2>( 2);
+    run_microgemm<  512, 2>( 4);
+    run_microgemm<  512, 2>( 8);
+    run_microgemm< 1024, 1>( 4);
+    run_microgemm< 1024, 1>( 8);
+    run_microgemm< 1024, 1>(16);
+    run_microgemm< 1024, 2>( 4);
+    run_microgemm< 1024, 2>( 8);
+    run_microgemm< 1024, 2>(16);
+    run_microgemm< 1024, 4>( 4);
+    run_microgemm< 1024, 4>( 8);
+    run_microgemm< 1024, 4>(16);
+    run_microgemm< 2048, 2>( 8);
+    run_microgemm< 2048, 2>(16);
+    run_microgemm< 2048, 4>( 8);
+    run_microgemm< 2048, 4>(64);
+    run_microgemm< 4096, 2>(64);
+    run_microgemm< 4096, 4>(64);
+    run_microgemm< 4096, 8>(64);
+    run_microgemm< 8192, 4>(64);
+    run_microgemm< 8192, 8>(64);
+    run_microgemm<16384, 4>(64);
+    run_microgemm<16384, 8>(64);
+    run_microgemm<16384,16>(64);
+    run_microgemm<32768, 8>(64);
+    run_microgemm<32768,16>(64);
+    run_microgemm<65536, 8>(64);
+    run_microgemm<65536,16>(64);
+    run_microgemm<65536,32>(64);
 
     return 0;
 }
