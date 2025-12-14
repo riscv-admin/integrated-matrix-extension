@@ -26,3 +26,4 @@ clean :
 	rm -rf matmul.out matmul.s matmul.o matmul.trace matmul
 	rm -rf matmul_v2.out matmul_v2.s matmul_v2.o matmul_v2.trace matmul_v2
 	rm -rf matmul_v3.out matmul_v3.s matmul_v3.o matmul_v3.trace matmul_v3
+	rm -rf portable portable.s
