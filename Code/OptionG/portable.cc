@@ -15,10 +15,13 @@ const u32 COUNT = 1;
 
 const u32 debug = 0;
 
+void print (u32, u32, double*);
+
 class RV_t
 {
     public:
         virtual void vfmmacc(u32 vd, u32 vs1, u32 vs2) = 0;
+	virtual void vfmmacc_v0(u32 vd, u32 vs1, u32 vs2) = 0;
         virtual void vfmacc(u32 vl, u32 vd, double alpha, u32 vs2) = 0;
         virtual void vxor(u32 vd, u32 vs1, u32 vs2) = 0;
         virtual void vle64(u32 vl, u32 vd, double *A) = 0;
@@ -26,6 +29,8 @@ class RV_t
         virtual void vse64(u32 vl, u32 vs, double *A) = 0;
         virtual void vste64(u32 vl, u32 vs, double *A, u32 stride) = 0;
 	virtual void vmtlfre64(u32 vd, double *A, s32 stride) = 0;
+	virtual void vmtsfre64(u32 vs, double *A, s32 stride) = 0;
+	virtual void vmrotate(u32 vd, u32 vs1) = 0;
         virtual u32& SEW() = 0;
         virtual u32& LMUL() = 0;
         virtual u32& RMUL() = 0;
@@ -70,6 +75,31 @@ class RVIME_t : public RV_t
 		std::cout << std::endl;
 	    }
 	    std::cout << "]" << std::endl;
+	}
+
+	void vmrotate(u32 vd, u32 vs1)
+	{
+	    switch(SEW_)
+	    {
+		case 64:
+		    double f64[VLEN_/64];
+		    for (u32 i=0; i<VLENE(); i++) f64[i] = VR[vs1].f64[(i + lambda()*lambda()) % VLENE()];
+		    for (u32 i=0; i<VLENE(); i++) VR[vd].f64[i] = f64[i];
+		    break;
+		default:
+		    assert(false);
+	    }
+	}
+
+	void vfmmacc_v0_fp64(u32 vd, u32 vs1, u32 vs2)
+	{
+	    for (u32 i=0; i<sigma(); i++)
+		for (u32 j=0; j<lambda(); j++)
+		{
+		    double S = 0.0;
+		    for (u32 k=0; k<lambda(); k++) S += VR[vs1].f64[i*lambda() + k] * VR[vs2].f64[j*lambda() + k];
+		    VR[vd].f64[i*lambda() + j] += S;
+		}
 	}
 
         void vfmmacc_fp64(u32 vd, u32 vs1, u32 vs2)
@@ -174,6 +204,18 @@ class RVIME_t : public RV_t
             }
         }
 
+	void vfmmacc_v0(u32 vd, u32 vs1, u32 vs2)
+	{
+	    switch(SEW_)
+	    {
+		case 64:
+		    vfmmacc_v0_fp64(vd, vs1, vs2);
+		    break;
+		default:
+		    assert(false);
+	    }
+	}
+
         void vxor(u32 vd, u32 vs1, u32 vs2)
         {
             switch(SEW_)
@@ -225,6 +267,12 @@ class RVIME_t : public RV_t
 	{
 	    if (debug > 2) { std::cout << "Loading VR[" << vd << "], vl = " << VLENE() << ", sigma = " << sigma() << ", lambda = " << lambda() << ", stride = " << stride << std::endl; }
 	    for (u32 row=0; row < sigma(); row++) for (u32 col=0; col < lambda(); col++) VR[vd].f64[row*lambda() + col] = A[row*stride + col];
+	}
+
+	void vmtsfre64(u32 vs, double *A, s32 stride)
+	{
+	    if (debug > 2) { std::cout << "Storing VR[" << vs << "], vl = " << VLENE() << ", sigma = " << sigma() << ", lambda = " << lambda() << ", stride = " << stride << std::endl; }
+	    for (u32 row=0; row < sigma(); row++) for (u32 col=0; col < lambda(); col++) A[row*stride + col] = VR[vs].f64[row*lambda() + col];
 	}
 
         u32 VLENE() const
@@ -300,6 +348,34 @@ class vfmmacc_t
         {
             return RV->vfmmacc(vd, vs1, vs2);
         }
+
+	void v0(u32 vd, u32 vs1, u32 vs2)
+	{
+	    assert(64 == RV->SEW());
+	    assert(RV->VL() == RV->lambda() * RV->lambda());
+	    vs1 = (vs1 / RV->LMUL()) * RV->LMUL();
+	    vs2 = (vs2 / RV->LMUL()) * RV->LMUL();
+	    for (u32 i=0; i<RV->LMUL(); i++)
+	    {
+		RV->vfmmacc_v0(vd, vs1+i, vs2+i);
+	    }
+	}
+};
+
+class vmrotate_t
+{
+    public:
+	void vv(u32 vd, u32 vs1)
+	{
+	    assert(64 == RV->SEW());
+	    assert(RV->VL() == RV->lambda() * RV->lambda());
+	    vd  = (vd  / RV->LMUL()) * RV->LMUL();
+	    vs1 = (vs1 / RV->LMUL()) * RV->LMUL();
+	    for (u32 i=0; i<RV->LMUL(); i++)
+	    {
+		RV->vmrotate(vd+i, vs1+i);
+	    }
+	}
 };
 
 class vxor_t
@@ -421,17 +497,36 @@ class vmtlfre64_t
 	}
 };
 
-vfmmacc_t vfmmacc;
-vfmacc_t  vfmacc;
-vsetvli_t vsetvli;
-vsetvl_t  vsetvl;
-vsetmul_t vsetmul;
-vxor_t    vxor;
-vle64_t   vle64;
-vlte64_t  vlte64;
-vse64_t   vse64;
-vste64_t  vste64;
-vmtlfre64_t vmtlfre64;
+class vmtsfre64_t
+{
+    public:
+	void v(u32 vs, double *A, s32 stride)
+	{
+	    assert(64 == RV->SEW());
+	    assert( 4 >= RV->LMUL());
+
+	    if (vs % RV->LMUL()) return;	// nop if not LMUL aligned
+	    for (u32 i=0; i<RV->LMUL(); i++)
+	    {
+		RV->vmtsfre64(vs+i, A + i*RV->lambda(), stride);
+	    }
+	    return;
+	}
+};
+
+vfmmacc_t 	vfmmacc;
+vfmacc_t  	vfmacc;
+vsetvli_t 	vsetvli;
+vsetvl_t  	vsetvl;
+vsetmul_t 	vsetmul;
+vxor_t    	vxor;
+vle64_t   	vle64;
+vlte64_t  	vlte64;
+vse64_t   	vse64;
+vste64_t    	vste64;
+vmtlfre64_t 	vmtlfre64;
+vmtsfre64_t	vmtsfre64;
+vmrotate_t  	vmrotate;
 
 bool LisSquare()
 {
@@ -458,23 +553,92 @@ void microgemm_portable
 
    double *S = new double[M*N]; for (u32 i=0; i<M*N; i++) S[i] = 0; 	// drand48() - 0.5;
 
-    vsetvl(5, RV->lambda() * RV->lambda(), 64, lmul, true, true);       // double-precision kernel, set VL and LMUL
+    vsetvl(5, 0, 64, 1, true, true);					// double-precision kernel, set VL to VLENE and LMUL to 1
+    for (u32 r=16; r<32; r++) vxor.vv(r, r, r);         		// T = 0
+
+    vsetvl(5, RV->lambda() * RV->lambda(), 64, lmul, true, true);       // double-precision kernel, set VL to lambda^2 and LMUL accordingly
     s32 INCA = M*lambda_eff; s32 INCB = N*lambda_eff;
-    double *A0 = A; double *A1 = A0 + RV->VLENE()*LisSquare(); double *A2 = A1 + RV->VLENE(); double *A3 = A2 + RV->VLENE()*LisSquare();
+    double *A0, *A1, *A2, *A3;
+    A0 = A; 
+    if (LisSquare())
+    {
+	if      (1 == lmul) { A1 = A0 + RV->VLENE() ; A2 = A1 + RV->VLENE()  ; A3 = A2 + RV->VLENE() ; }
+	else if (2 == lmul) { A1 = A0 + RV->lambda(); A2 = A0 + 2*RV->VLENE(); A3 = A2 + RV->lambda(); }
+	else if (4 == lmul) { A1 = A0 + RV->lambda(); A2 = A1 + RV->lambda() ; A3 = A2 + RV->lambda(); }
+	else assert(false);
+    }
+    else
+    {
+	if      (1 == lmul) { A1 = A0               ; A2 = A0 + RV->VLENE(); A3 = A2               ; }
+	else if (2 == lmul) { A1 = A0 + RV->lambda(); A2 = A0              ; A3 = A2 + RV->lambda(); }
+	else assert(false);
+    }
     double *B0 = B; double *B1 = B0 + RV->VLENE();             double *B2 = B1 + RV->VLENE(); double *B3 = B2 + RV->VLENE();
     for (u32 k=0; k<K; k+=lambda_eff)
     {
-	vmtlfre64.v( 0, A0, lambda_eff); std::cout << "VR[ 0] = "; RV->printVRf64( 0);
-	vmtlfre64.v( 1, A1, lambda_eff); std::cout << "VR[ 1] = "; RV->printVRf64( 1);
-    	vmtlfre64.v( 2, A2, lambda_eff); std::cout << "VR[ 2] = "; RV->printVRf64( 2);
-	vmtlfre64.v( 3, A3, lambda_eff); std::cout << "VR[ 3] = "; RV->printVRf64( 3);
-    	vmtlfre64.v( 8, B0, lambda_eff); std::cout << "VR[ 8] = "; RV->printVRf64( 8);
-	vmtlfre64.v( 9, B1, lambda_eff); std::cout << "VR[ 9] = "; RV->printVRf64( 9);
-    	vmtlfre64.v(10, B2, lambda_eff); std::cout << "VR[10] = "; RV->printVRf64(10);
-	vmtlfre64.v(11, B3, lambda_eff); std::cout << "VR[11] = "; RV->printVRf64(11);
+	std::cout << "k = " << k << std::endl;
+
+	vmtlfre64.v( 0, A0, lambda_eff); { std::cout << "VR[ 0] = "; RV->printVRf64( 0); }
+	vmtlfre64.v( 1, A1, lambda_eff); { std::cout << "VR[ 1] = "; RV->printVRf64( 1); }
+    	vmtlfre64.v( 2, A2, lambda_eff); { std::cout << "VR[ 2] = "; RV->printVRf64( 2); }
+	vmtlfre64.v( 3, A3, lambda_eff); { std::cout << "VR[ 3] = "; RV->printVRf64( 3); }
+    	vmtlfre64.v( 8, B0, lambda_eff); { std::cout << "VR[ 8] = "; RV->printVRf64( 8); }
+	vmtlfre64.v( 9, B1, lambda_eff); { std::cout << "VR[ 9] = "; RV->printVRf64( 9); }
+    	vmtlfre64.v(10, B2, lambda_eff); { std::cout << "VR[10] = "; RV->printVRf64(10); }
+	vmtlfre64.v(11, B3, lambda_eff); { std::cout << "VR[11] = "; RV->printVRf64(11); }
 
 	A0 = A0 + INCA ; A1 = A1 + INCA ; A2 = A2 + INCA ; A3 = A3 + INCA;    
 	B0 = B0 + INCB ; B1 = B1 + INCB ; B2 = B2 + INCB ; B3 = B3 + INCB;
+
+	vfmmacc.v0(16,  0,  8); vmrotate.vv( 8,  8); { std::cout << "VR[16] = "; RV->printVRf64(16); }
+     	vfmmacc.v0(17,  0,  9); vmrotate.vv( 9,  9); { std::cout << "VR[17] = "; RV->printVRf64(17); }
+     	vfmmacc.v0(18,  1,  8); vmrotate.vv( 8,  8); { std::cout << "VR[18] = "; RV->printVRf64(18); }
+     	vfmmacc.v0(19,  1,  9); vmrotate.vv( 9,  9); { std::cout << "VR[19] = "; RV->printVRf64(19); }
+     	vfmmacc.v0(20,  0, 10); vmrotate.vv(10, 10); { std::cout << "VR[20] = "; RV->printVRf64(20); }
+     	vfmmacc.v0(21,  0, 11); vmrotate.vv(11, 11); { std::cout << "VR[21] = "; RV->printVRf64(21); }
+     	vfmmacc.v0(22,  1, 10); vmrotate.vv(10, 10); { std::cout << "VR[22] = "; RV->printVRf64(22); }
+     	vfmmacc.v0(23,  1, 11); vmrotate.vv(11, 11); { std::cout << "VR[23] = "; RV->printVRf64(23); }
+     	vfmmacc.v0(24,  2,  8); vmrotate.vv( 8,  8); { std::cout << "VR[24] = "; RV->printVRf64(24); }
+    	vfmmacc.v0(25,  2,  9); vmrotate.vv( 9,  9); { std::cout << "VR[25] = "; RV->printVRf64(25); }
+     	vfmmacc.v0(26,  3,  8); vmrotate.vv( 8,  8); { std::cout << "VR[26] = "; RV->printVRf64(26); }
+     	vfmmacc.v0(27,  3,  9); vmrotate.vv( 9,  9); { std::cout << "VR[27] = "; RV->printVRf64(27); }
+     	vfmmacc.v0(28,  2, 10); vmrotate.vv(10, 10); { std::cout << "VR[28] = "; RV->printVRf64(28); }
+     	vfmmacc.v0(29,  2, 11); vmrotate.vv(11, 11); { std::cout << "VR[29] = "; RV->printVRf64(29); }
+     	vfmmacc.v0(30,  3, 10); vmrotate.vv(10, 10); { std::cout << "VR[30] = "; RV->printVRf64(30); }
+     	vfmmacc.v0(31,  3, 11); vmrotate.vv(11, 11); { std::cout << "VR[31] = "; RV->printVRf64(31); }
+    }
+
+    u32 offset[32];
+    offset[16] = 0;
+    offset[17] = offset[16] + (((!LisSquare()) && (1 == lmul)) ? 2 * RV->lambda() : RV->lambda());
+    offset[18] = (1 != lmul) ? (offset[17] + RV->lambda()) : (LisSquare() ? offset[16] + RV->lambda() * gamma : offset[16] + RV->lambda());
+    offset[19] = ((!LisSquare()) && (1 == lmul)) ? offset[17] + RV->lambda() : offset[18] + RV->lambda();
+    offset[20] = (4 == lmul) ? (offset[16] + 4*RV->lambda()) : offset[16] + (2*RV->sigma())/lmul;
+    offset[21] = offset[20] + (((!LisSquare()) && (1 == lmul)) ? 2 * RV->lambda() : RV->lambda());
+    offset[22] = (1 != lmul) ? (offset[21] + RV->lambda()) : (LisSquare() ? offset[20] + RV->lambda() * gamma : offset[20] + RV->lambda());
+    offset[23] = ((!LisSquare()) && (1 == lmul)) ? offset[21] + RV->lambda() : offset[22] + RV->lambda();
+    offset[24] = (4 == lmul) ? (offset[16] + 8*RV->lambda()) : ((LisSquare() || (1 == lmul)) ? gamma * (M/2) : offset[16] + 4*RV->lambda());
+    offset[25] = offset[24] + (((!LisSquare()) && (1 == lmul)) ? 2 * RV->lambda() : RV->lambda());
+    offset[26] = (1 != lmul) ? (offset[25] + RV->lambda()) : (LisSquare() ? offset[24] + RV->lambda() * gamma : offset[24] + RV->lambda());
+    offset[27] = ((!LisSquare()) && (1 == lmul)) ? offset[25] + RV->lambda() : offset[26] + RV->lambda();
+    offset[28] = (4 == lmul) ? (offset[24] + 4*RV->lambda()) : offset[24] + (2*RV->sigma())/lmul;
+    offset[29] = offset[28] + (((!LisSquare()) && (1 == lmul)) ? 2 * RV->lambda() : RV->lambda());
+    offset[30] = (1 != lmul) ? (offset[29] + RV->lambda()) : (LisSquare() ? offset[28] + RV->lambda() * gamma : offset[28] + RV->lambda());
+    offset[31] = ((!LisSquare()) && (1 == lmul)) ? offset[29] + RV->lambda() : offset[30] + RV->lambda();
+
+    for (u32 i=16; i<32; i++) std::cout << "offset[" << i << "] = " << offset[i] << std::endl;
+
+    double *D = new double[M*N];
+    vsetvl(5, 0, 64, 1, true, true);					// double-precision kernel, set VL to VLENE and LMUL to 1
+    for (u32 vs=16; vs<32; vs++)
+	vmtsfre64.v(vs, D+offset[vs], N);
+
+    double *E = new double[M*N]; for (u32 i=0; i<M*N; i++) E[i] = C[i];
+    for (u32 vd=0; vd<16; vd++)
+    {
+	vmtlfre64.v(vd, C+offset[vd+16], N);
+        vfmacc.vf(vd, alpha, vd+16);
+	vmtsfre64.v(vd, E+offset[vd+16], N);
     }
 
     for (u32 k=0; k<K; k+=lambda_eff)
@@ -491,7 +655,15 @@ void microgemm_portable
     }
     for (u32 i=0; i<M; i++) for (u32 j=0; j<N; j++) C[i*gamma + j] += alpha * S[i*N + j];
 
+    std::cout << "S = "; print(M, N, S);
+    std::cout << "D = "; print(M, N, D);
+
+    for (u32 i=0; i<M; i++) for (u32 j=0; j<N; j++) if (D[i*N+j] != S[i*N+j]) { std::cout << "Error for D[" << i << "," << j << "] = " << D[i*N+j] << " != " << S[i*N+j] << std::endl; exit(-1); }
+    for (u32 i=0; i<M; i++) for (u32 j=0; j<N; j++) if (E[i*N+j] != C[i*N+j]) { std::cout << "Error for E[" << i << "," << j << "] = " << E[i*N+j] << " != " << C[i*N+j] << std::endl; exit(-1); }
+
+    delete [] E;
     delete [] S;
+    delete [] D;
 }
 
 void microgemm
@@ -758,20 +930,20 @@ int main
 )
 {
     std::cout << "=========================================================================================================================" << std::endl;
-    run_microgemm<  64, 1>(1);
-    run_microgemm<  64, 1>(2);
-    run_microgemm<  64, 1>(4);
-    run_microgemm<  64, 1>(8);
-    run_microgemm< 128, 1>(1);
-    run_microgemm< 128, 1>(2);
-    run_microgemm< 128, 1>(4);
-    run_microgemm< 128, 1>(8);
-    run_microgemm< 256, 1>(2);
-    run_microgemm< 256, 1>(4);
-    run_microgemm< 256, 1>(8);
-    run_microgemm< 256, 2>(2);
-    run_microgemm< 256, 2>(4);
-    run_microgemm< 256, 2>(8);
+    // run_microgemm<  64, 1>(1);
+    // run_microgemm<  64, 1>(2);
+    // run_microgemm<  64, 1>(4);
+    // run_microgemm<  64, 1>(8);
+    // run_microgemm< 128, 1>(1);
+    // run_microgemm< 128, 1>(2);
+    // run_microgemm< 128, 1>(4);
+    // run_microgemm< 128, 1>(8);
+    // run_microgemm< 256, 1>(2);
+    // run_microgemm< 256, 1>(4);
+    // run_microgemm< 256, 1>(8);
+    // run_microgemm< 256, 2>(2);
+    // run_microgemm< 256, 2>(4);
+    // run_microgemm< 256, 2>(8);
     run_microgemm< 512, 1>(2);
     run_microgemm< 512, 1>(4);
     run_microgemm< 512, 1>(8);
