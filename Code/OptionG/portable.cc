@@ -616,7 +616,8 @@ void microgemm<double>
         vfmmacc.v0(31,  3, 11); vmrotate.vv(11, 11); if (debug > 1) { std::cout << "VR[31] = "; RV->printVRf64(31); }
     }
 
-    // compute the store offsets for each result register - this only has to be done once per <L,lambda> configuration
+    // compute the store offsets for each result register - this only has to be done once per <L,lambda,gamma> configuration
+    // that is, it can be done on entry to BLAS-level GEMM routine
     // the offset vector only needs 16 elements - we use 32 for convenience and will cleanup later
     u32 offset[32];
     offset[16] = 0;
