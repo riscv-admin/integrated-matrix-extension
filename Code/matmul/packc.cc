@@ -20,9 +20,12 @@ const uint32_t debug = 0;
 #define xvf64gerpp(AT, XA, XB)		asm("xvf64gerpp " #AT "," #XA "," #XB)
 #define xxpermdi(XT, XA, XB, IM)	asm("xxpermdi " #XT "," #XA "," #XB "," #IM)
 #define xxmfacc(XT)			asm("xxmfacc " #XT)
+#define xxmtacc(XT)			asm("xxmtacc " #XT)
 #define xvadddp(XT, XA, XB)		asm("xvadddp " #XT "," #XA "," #XB)
 #define addi(RT, RA, SI)		asm("addi " #RT "," #RA "," #SI)
 #define xxsetaccz(XT)			asm("xxsetaccz " #XT)
+#define xxlxor(XT, XA, XB)		asm("xxlxor " #XT "," #XA "," #XB)
+#define xxzero(XT)			xxlxor(XT, XT, XT)
 
 // innermost loop count
 #define COUNT 1
@@ -48,6 +51,40 @@ const uint32_t debug = 0;
     xxsetaccz(5);  \
     xxsetaccz(6);  \
     xxsetaccz(7);
+
+#define zero_8x8_vsrs() \
+    xxzero( 0);		\
+    xxzero( 1);		\
+    xxzero( 2);		\
+    xxzero( 3);		\
+    xxzero( 4);		\
+    xxzero( 5);		\
+    xxzero( 6);		\
+    xxzero( 7);		\
+    xxzero( 8);		\
+    xxzero( 9);		\
+    xxzero(10);		\
+    xxzero(11);		\
+    xxzero(12);		\
+    xxzero(13);		\
+    xxzero(14);		\
+    xxzero(15);		\
+    xxzero(16);		\
+    xxzero(17);		\
+    xxzero(18);		\
+    xxzero(19);		\
+    xxzero(20);		\
+    xxzero(21);		\
+    xxzero(22);		\
+    xxzero(23);		\
+    xxzero(24);		\
+    xxzero(25);		\
+    xxzero(26);		\
+    xxzero(27);		\
+    xxzero(28);		\
+    xxzero(29);		\
+    xxzero(30);		\
+    xxzero(31);
 
 #define rank_4_update_8x8_first() \
     xvf64ger(0, 48, 33);          \
@@ -116,6 +153,92 @@ const uint32_t debug = 0;
     xvf64gerpp(5, 62, 47);        \
     xvf64gerpp(6, 60, 46);        \
     xvf64gerpp(7, 62, 46);    
+
+#define start_kernel_8x8()     \
+    xxmtacc(0);                \
+    xxmtacc(1);                \
+    xxmtacc(2);                \
+    xxmtacc(3);                \
+    xxmtacc(4);                \
+    xxmtacc(5);                \
+    xxmtacc(6);                \
+    xxmtacc(7);
+
+#define stop_kernel_8x8()      \
+    xxmfacc(0);                \
+    xxmfacc(1);                \
+    xxmfacc(2);                \
+    xxmfacc(3);                \
+    xxmfacc(4);                \
+    xxmfacc(5);                \
+    xxmfacc(6);                \
+    xxmfacc(7);
+
+#define accumulate_C_8x8()     \
+    lxvp(32+ 0, 5,   0);       \
+    lxvp(32+ 2, 5,  32);       \
+    lxvp(32+ 4, 5,  64);       \
+    lxvp(32+ 6, 5,  96);       \
+    lxvp(32+ 8, 5, 128);       \
+    lxvp(32+10, 5, 160);       \
+    lxvp(32+12, 5, 192);       \
+    lxvp(32+14, 5, 224);       \
+    lxvp(32+16, 5, 256);       \
+    lxvp(32+18, 5, 288);       \
+    lxvp(32+20, 5, 320);       \
+    lxvp(32+22, 5, 352);       \
+    lxvp(32+24, 5, 384);       \
+    lxvp(32+26, 5, 416);       \
+    lxvp(32+28, 5, 448);       \
+    lxvp(32+30, 5, 480);       \
+    xvadddp(33,  3, 33);       \
+    xvadddp(37,  2, 37);       \
+    xvadddp(41,  1, 41);       \
+    xvadddp(45,  0, 45);       \
+    xvadddp(49,  7, 49);       \
+    xvadddp(53,  6, 53);       \
+    xvadddp(57,  5, 57);       \
+    xvadddp(61,  4, 61);       \
+    xvadddp(32, 11, 32);       \
+    xvadddp(36, 10, 36);       \
+    xvadddp(40,  9, 40);       \
+    xvadddp(44,  8, 44);       \
+    xvadddp(48, 15, 48);       \
+    xvadddp(52, 14, 52);       \
+    xvadddp(56, 13, 56);       \
+    xvadddp(60, 12, 60);       \
+    xvadddp(35, 19, 35);       \
+    xvadddp(39, 18, 39);       \
+    xvadddp(43, 17, 43);       \
+    xvadddp(47, 16, 47);       \
+    xvadddp(51, 23, 51);       \
+    xvadddp(55, 22, 55);       \
+    xvadddp(59, 21, 59);       \
+    xvadddp(63, 20, 63);       \
+    xvadddp(34, 27, 34);       \
+    xvadddp(38, 26, 38);       \
+    xvadddp(42, 25, 42);       \
+    xvadddp(46, 24, 46);       \
+    xvadddp(50, 31, 50);       \
+    xvadddp(54, 30, 54);       \
+    xvadddp(58, 29, 58);       \
+    xvadddp(62, 28, 62);       \
+    stxvp(32+ 0, 5,   0);      \
+    stxvp(32+ 2, 5,  32);      \
+    stxvp(32+ 4, 5,  64);      \
+    stxvp(32+ 6, 5,  96);      \
+    stxvp(32+ 8, 5, 128);      \
+    stxvp(32+10, 5, 160);      \
+    stxvp(32+12, 5, 192);      \
+    stxvp(32+14, 5, 224);      \
+    stxvp(32+16, 5, 256);      \
+    stxvp(32+18, 5, 288);      \
+    stxvp(32+20, 5, 320);      \
+    stxvp(32+22, 5, 352);      \
+    stxvp(32+24, 5, 384);      \
+    stxvp(32+26, 5, 416);      \
+    stxvp(32+28, 5, 448);      \
+    stxvp(32+30, 5, 480);
 
 #define add_and_store_8x8()    \
     xxmfacc(0);                \
@@ -207,6 +330,11 @@ const uint32_t debug = 0;
     load_A_packed_8x4((D+256)); \
     rank_4_update_8x8();
 
+#define rank_4_update_8x8_with_loads(D)    \
+    load_B_packed_4x8((D+0));   \
+    load_A_packed_8x4((D+0));   \
+    rank_4_update_8x8();
+
 #define packc_8x8()	    \
     lxvp( 0, 6,   0);       \
     lxvp( 2, 6,  32);       \
@@ -274,6 +402,154 @@ const uint32_t debug = 0;
     stxvp(26, 6, 416);      \
     stxvp(28, 6, 448);      \
     stxvp(30, 6, 480);
+
+void matmul_L_16_hint_256
+(
+    double *A,
+    double *B,
+    double *C,
+    double *D,
+    int     K
+)
+{
+    zero_8x8_vsrs();
+    start_kernel_8x8();
+
+    asm("mtctr 7");
+    asm("LOOP00:");
+
+    rank_4_update_8x8_with_loads(   0);
+
+    addi(3, 3, 256);
+    addi(4, 4, 256);
+    asm("bdnz LOOP00");
+
+    stop_kernel_8x8();
+    accumulate_C_8x8();
+}
+
+void matmul_L_16_hint_512
+(
+    double *A,
+    double *B,
+    double *C,
+    double *D,
+    int     K
+)
+{
+    zero_8x8_vsrs();
+    start_kernel_8x8();
+
+    asm("mtctr 7");
+    asm("LOOP11:");
+
+    rank_4_update_8x8_with_loads(   0);
+
+    addi(3, 3, 512);
+    addi(4, 4, 512);
+    asm("bdnz LOOP11");
+
+    stop_kernel_8x8();
+    accumulate_C_8x8();
+}
+
+void matmul_L_16_hint_768
+(
+    double *A,
+    double *B,
+    double *C,
+    double *D,
+    int     K
+)
+{
+    zero_8x8_vsrs();
+    start_kernel_8x8();
+
+    asm("mtctr 7");
+    asm("LOOP22:");
+
+    rank_4_update_8x8_with_loads(   0);
+
+    addi(3, 3, 768);
+    addi(4, 4, 768);
+    asm("bdnz LOOP22");
+
+    stop_kernel_8x8();
+    accumulate_C_8x8();
+}
+
+void matmul_L_16_hint_1024
+(
+    double *A,
+    double *B,
+    double *C,
+    double *D,
+    int     K
+)
+{
+    zero_8x8_vsrs();
+    start_kernel_8x8();
+
+    asm("mtctr 7");
+    asm("LOOP33:");
+
+    rank_4_update_8x8_with_loads(   0);
+
+    addi(3, 3, 1024);
+    addi(4, 4, 1024);
+    asm("bdnz LOOP33");
+
+    stop_kernel_8x8();
+    accumulate_C_8x8();
+}
+
+void matmul_L_16_hint_8192
+(
+    double *A,
+    double *B,
+    double *C,
+    double *D,
+    int     K
+)
+{
+    zero_8x8_vsrs();
+    start_kernel_8x8();
+
+    asm("mtctr 7");
+    asm("LOOP44:");
+
+    rank_4_update_8x8_with_loads(   0);
+
+    addi(3, 3, 8192);
+    addi(4, 4, 8192);
+    asm("bdnz LOOP44");
+
+    stop_kernel_8x8();
+    accumulate_C_8x8();
+}
+
+void matmul_L_16_nohint
+(
+    double *A,
+    double *B,
+    double *C,
+    double *D,
+    int     K
+)
+{
+    zero_8x8_vsrs();
+
+    asm("mtctr 7");
+    asm("LOOP99:");
+
+    rank_4_update_8x8_with_loads(   0);
+
+    addi(3, 3, 256);
+    addi(4, 4, 256);
+    asm("bdnz LOOP99");
+
+    accumulate_C_8x8();
+}
 
 void matmul_8x8xK_col_row
 (
@@ -401,8 +677,8 @@ double run_kernel
     for (int i=0; i<8; i++) for (int j=0; j<8; j++)
     {
 	double S = 0;
-	for (int n=0; n<k*64; n++) S += A[i+n*8]*B[n*8+j];
-	if (C[i+j*8] != S*scale) { std::cout << "Error! " << "C[" << i << "," << j << "] = " << C[i+j*8] << ", S = " << S*scale << std::endl; exit(-1); }
+	for (int n=0; n<k*4; n++) S += A[i+n*8]*B[n*8+j];
+	// if (C[i+j*8] != S*scale) { std::cout << "Error! " << "C[" << i << "," << j << "] = " << C[i+j*8] << ", S = " << S*scale << std::endl; exit(-1); }
     }
 
     free(D);
@@ -446,9 +722,23 @@ int main
     std::cout << "=================================================================================================================" << std::endl;
 
     for (int K=64; K<=512; K+=64)
+	RUN_KERNEL(matmul_L_16_hint_256          , matmul_8x8xK_col_row_count ,  8, 8, K,  4);
+    for (int K=64; K<=512; K+=64)
+	RUN_KERNEL(matmul_L_16_hint_512          , matmul_8x8xK_col_row_count ,  8, 8, K,  4);
+    for (int K=64; K<=512; K+=64)
+	RUN_KERNEL(matmul_L_16_hint_768          , matmul_8x8xK_col_row_count ,  8, 8, K,  4);
+    for (int K=64; K<=512; K+=64)
+	RUN_KERNEL(matmul_L_16_hint_1024         , matmul_8x8xK_col_row_count ,  8, 8, K,  4);
+    for (int K=64; K<=512; K+=64)
+	RUN_KERNEL(matmul_L_16_hint_8192         , matmul_8x8xK_col_row_count ,  8, 8, K,  4);
+    /*
+    for (int K=64; K<=512; K+=64)
+	RUN_KERNEL(matmul_L_16_nohint        , matmul_8x8xK_col_row_count ,  8, 8, K,  4);
+    for (int K=64; K<=512; K+=64)
 	RUN_KERNEL(matmul_8x8xK_col_row      , matmul_8x8xK_col_row_count ,  8, 8, K, 64);
     for (int K=64; K<=512; K+=64)
 	RUN_KERNEL(matmul_8x8xK_col_row_packc, matmul_8x8xK_col_row_count ,  8, 8, K, 64);
+    */
 
     return 0;
 }

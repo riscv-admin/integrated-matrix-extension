@@ -1,0 +1,71 @@
+=================================================================================================================
+Time to run           matmul_L_16_hint_256 ( K=  64 ) 10000000 times =   0.900753 seconds ( 9.094613e+10 flops )
+Time to run           matmul_L_16_hint_256 ( K= 128 ) 10000000 times =   1.526018 seconds ( 1.073644e+11 flops )
+Time to run           matmul_L_16_hint_256 ( K= 192 ) 10000000 times =   2.169469 seconds ( 1.132812e+11 flops )
+Time to run           matmul_L_16_hint_256 ( K= 256 ) 10000000 times =   2.997373 seconds ( 1.093224e+11 flops )
+Time to run           matmul_L_16_hint_256 ( K= 320 ) 10000000 times =   3.775031 seconds ( 1.085024e+11 flops )
+Time to run           matmul_L_16_hint_256 ( K= 384 ) 10000000 times =   4.434203 seconds ( 1.108474e+11 flops )
+Time to run           matmul_L_16_hint_256 ( K= 448 ) 10000000 times =   5.104102 seconds ( 1.123488e+11 flops )
+Time to run           matmul_L_16_hint_256 ( K= 512 ) 10000000 times =   5.804862 seconds ( 1.128985e+11 flops )
+Time to run           matmul_L_16_hint_512 ( K=  64 ) 10000000 times =   0.904889 seconds ( 9.053048e+10 flops )
+Time to run           matmul_L_16_hint_512 ( K= 128 ) 10000000 times =   1.688631 seconds ( 9.702534e+10 flops )
+Time to run           matmul_L_16_hint_512 ( K= 192 ) 10000000 times =   2.666414 seconds ( 9.216875e+10 flops )
+Time to run           matmul_L_16_hint_512 ( K= 256 ) 10000000 times =   3.379016 seconds ( 9.697497e+10 flops )
+Time to run           matmul_L_16_hint_512 ( K= 320 ) 10000000 times =   4.085580 seconds ( 1.002550e+11 flops )
+Time to run           matmul_L_16_hint_512 ( K= 384 ) 10000000 times =   4.792303 seconds ( 1.025645e+11 flops )
+Time to run           matmul_L_16_hint_512 ( K= 448 ) 10000000 times =   5.502002 seconds ( 1.042239e+11 flops )
+Time to run           matmul_L_16_hint_512 ( K= 512 ) 10000000 times =   6.221739 seconds ( 1.053339e+11 flops )
+Time to run           matmul_L_16_hint_768 ( K=  64 ) 10000000 times =   0.890543 seconds ( 9.198877e+10 flops )
+Time to run           matmul_L_16_hint_768 ( K= 128 ) 10000000 times =   1.525949 seconds ( 1.073692e+11 flops )
+Time to run           matmul_L_16_hint_768 ( K= 192 ) 10000000 times =   2.169225 seconds ( 1.132939e+11 flops )
+Time to run           matmul_L_16_hint_768 ( K= 256 ) 10000000 times =   3.268171 seconds ( 1.002640e+11 flops )
+Time to run           matmul_L_16_hint_768 ( K= 320 ) 10000000 times =   4.138888 seconds ( 9.896377e+10 flops )
+Time to run           matmul_L_16_hint_768 ( K= 384 ) 10000000 times =   4.812280 seconds ( 1.021387e+11 flops )
+Time to run           matmul_L_16_hint_768 ( K= 448 ) 10000000 times =   5.509122 seconds ( 1.040892e+11 flops )
+Time to run           matmul_L_16_hint_768 ( K= 512 ) 10000000 times =   6.204766 seconds ( 1.056220e+11 flops )
+Time to run          matmul_L_16_hint_1024 ( K=  64 ) 10000000 times =   0.998779 seconds ( 8.202016e+10 flops )
+Time to run          matmul_L_16_hint_1024 ( K= 128 ) 10000000 times =   1.938054 seconds ( 8.453839e+10 flops )
+Time to run          matmul_L_16_hint_1024 ( K= 192 ) 10000000 times =   2.699886 seconds ( 9.102606e+10 flops )
+Time to run          matmul_L_16_hint_1024 ( K= 256 ) 10000000 times =   3.475890 seconds ( 9.427227e+10 flops )
+Time to run          matmul_L_16_hint_1024 ( K= 320 ) 10000000 times =   4.264127 seconds ( 9.605717e+10 flops )
+Time to run          matmul_L_16_hint_1024 ( K= 384 ) 10000000 times =   5.058621 seconds ( 9.716481e+10 flops )
+Time to run          matmul_L_16_hint_1024 ( K= 448 ) 10000000 times =   5.856519 seconds ( 9.791483e+10 flops )
+Time to run          matmul_L_16_hint_1024 ( K= 512 ) 10000000 times =   6.655165 seconds ( 9.847389e+10 flops )
+Time to run          matmul_L_16_hint_8192 ( K=  64 ) 10000000 times =   1.183727 seconds ( 6.920513e+10 flops )
+Time to run          matmul_L_16_hint_8192 ( K= 128 ) 10000000 times =   2.170086 seconds ( 7.549932e+10 flops )
+Time to run          matmul_L_16_hint_8192 ( K= 192 ) 10000000 times =   3.268907 seconds ( 7.518110e+10 flops )
+Time to run          matmul_L_16_hint_8192 ( K= 256 ) 10000000 times =   4.551883 seconds ( 7.198779e+10 flops )
+Time to run          matmul_L_16_hint_8192 ( K= 320 ) 10000000 times =   5.615628 seconds ( 7.293931e+10 flops )
+Time to run          matmul_L_16_hint_8192 ( K= 384 ) 10000000 times =   6.857442 seconds ( 7.167688e+10 flops )
+Time to run          matmul_L_16_hint_8192 ( K= 448 ) 10000000 times =   8.352671 seconds ( 6.865349e+10 flops )
+Time to run          matmul_L_16_hint_8192 ( K= 512 ) 10000000 times =   9.778340 seconds ( 6.702160e+10 flops )
+
+ Performance counter stats for 'numactl -C 8 ./packc':
+
+        157,741.99 msec task-clock:HGu                   #    1.000 CPUs utilized             
+                 0      context-switches:HGu             #    0.000 /sec                      
+                 0      cpu-migrations:HGu               #    0.000 /sec                      
+            10,096      page-faults:HGu                  #   64.003 /sec                      
+   629,750,297,919      cycles:HGu                       #    3.992 GHz                         (38.45%)
+ 1,527,734,832,057      instructions:HGu                 #    2.43  insn per cycle              (46.15%)
+    30,551,290,391      branches:HGu                     #  193.679 M/sec                       (46.16%)
+       421,414,255      branch-misses:HGu                #    1.38% of all branches             (46.16%)
+   475,511,353,320      L1-dcache-loads:HGu              #    3.014 G/sec                       (38.48%)
+    41,220,205,661      L1-dcache-load-misses:HGu        #    8.67% of all L1-dcache accesses   (15.39%)
+    40,507,840,507      LLC-loads:HGu                    #  256.798 M/sec                       (15.38%)
+             7,607      LLC-load-misses:HGu              #    0.00% of all LL-cache accesses    (15.38%)
+   224,165,188,251      L1-icache-loads:HGu              #    1.421 G/sec                       (23.07%)
+            72,863      L1-icache-load-misses:HGu        #    0.00% of all L1-icache accesses   (30.76%)
+   <not supported>      dTLB-loads:HGu                                                        
+            11,565      dTLB-load-misses:HGu                                                    (23.07%)
+   <not supported>      iTLB-loads:HGu                                                        
+               767      iTLB-load-misses:HGu                                                    (30.76%)
+    89,909,006,412      L1-dcache-prefetches:HGu         #  569.975 M/sec                       (30.76%)
+   <not supported>      L1-dcache-prefetch-misses:HGu                                         
+
+     157.744383899 seconds time elapsed
+
+     157.712711000 seconds user
+       0.030000000 seconds sys
+
+
