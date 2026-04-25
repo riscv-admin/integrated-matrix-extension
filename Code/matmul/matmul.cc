@@ -2,6 +2,8 @@
 #include <time.h>
 #include <iostream>
 #include <iomanip>
+#include <omp.h>
+#include <vector>
 
 // helper macros
 #define EXPAND(x)  _EXPAND(x)
@@ -1517,25 +1519,42 @@ double run_kernel
     uint32_t count
 )
 {
+    int nthreads = omp_get_max_threads();
+    std::vector<double*> A(nthreads);
+    std::vector<double*> B(nthreads);
+    std::vector<double*> C(nthreads);
+    std::vector<double*> D(nthreads);
+
     const uint32_t N = 1024*1024;
-    double *A = (double*)aligned_alloc(4096, sizeof(double) * N); for (uint32_t i=0; i<N; i++) A[i] = drand48() - 0.5;
-    double *B = (double*)aligned_alloc(4096, sizeof(double) * N); for (uint32_t i=0; i<N; i++) B[i] = drand48() - 0.5;
-    double *C = (double*)aligned_alloc(4096, sizeof(double) * N); for (uint32_t i=0; i<N; i++) C[i] = drand48() - 0.5;
-    double *D = (double*)aligned_alloc(4096, sizeof(double) * N); for (uint32_t i=0; i<N; i++) D[i] = drand48() - 0.5;
+#pragma omp parallel for schedule(static,1)
+    for (int j=0; j<nthreads; j++)
+    {
+	A[j] = (double*)aligned_alloc(4096, sizeof(double) * N); for (uint32_t i=0; i<N; i++) A[j][i] = drand48() - 0.5;
+	B[j] = (double*)aligned_alloc(4096, sizeof(double) * N); for (uint32_t i=0; i<N; i++) B[j][i] = drand48() - 0.5;
+	C[j] = (double*)aligned_alloc(4096, sizeof(double) * N); for (uint32_t i=0; i<N; i++) C[j][i] = drand48() - 0.5;
+	D[j] = (double*)aligned_alloc(4096, sizeof(double) * N); for (uint32_t i=0; i<N; i++) D[j][i] = drand48() - 0.5;
+    }
 
     volatile double start, finish;
 
     start = now();
-    for(; count; count -= COUNT)
+#pragma omp parallel for schedule(static,1)
+    for (int j=0; j<nthreads; j++)
     {
-	kernel(A,B,C,D);
+	for(uint32_t reps = count; reps; reps -= COUNT)
+	{
+	    kernel(A[j],B[j],C[j],D[j]);
+	}
     }
     finish = now();
 
-    free(D);
-    free(C);
-    free(B);
-    free(A);
+    for (int j=0; j<nthreads; j++)
+    {
+	free(D[j]);
+	free(C[j]);
+	free(B[j]);
+	free(A[j]);
+    }
 
     return (finish - start);
 }
@@ -1551,7 +1570,7 @@ void run_kernel_and_report
 )
 {
     volatile double elapsed;
-    volatile double flops = 2.0*count*M*N*K;
+    volatile double flops = 2.0*count*M*N*K*omp_get_max_threads();
     elapsed = run_kernel(kernel, count);
     std::cout << std::setprecision(6);
     std::cout << "Time to run " << std::setw(51) << name << " " << count << " times = " << std::setw(10) << std::fixed << elapsed << " seconds (" << std::setw(10) << std::scientific << flops/elapsed << " flops)" << std::endl;
@@ -1580,7 +1599,11 @@ int main
 
     volatile double elapsed;
     
+    int nthreads = omp_get_max_threads();
     std::cout << "=========================================================================================================================" << std::endl;
+    std::cout << "Running on " << nthreads << ((nthreads > 1) ? " threads" : " thread") << std::endl;
+    std::cout << "OMP_NUM_THREADS=" << getenv("OMP_NUM_THREADS") << std::endl;
+    std::cout << "GOMP_CPU_AFFINITY=" << getenv("GOMP_CPU_AFFINITY") << std::endl;
 
     RUN_KERNEL(matmul_8x8x8_col_row                               , matmul_8x8x8_col_row_count  ,  8, 8,  8);
     RUN_KERNEL(matmul_8x8x8_col_col                               , matmul_8x8x8_col_col_count  ,  8, 8,  8);

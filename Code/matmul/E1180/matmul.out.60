@@ -1,0 +1,54 @@
+=========================================================================================================================
+Running on 60 threads
+OMP_NUM_THREADS=60
+GOMP_CPU_AFFINITY=0-959:8
+Time to run                                matmul_8x8x8_col_row 100000000 times =   0.771351 seconds (7.965247e+12 flops)
+Time to run                                matmul_8x8x8_col_col 100000000 times =   0.891232 seconds (6.893830e+12 flops)
+Time to run                     matmul_8x8x8_col_row_just_loads 100000000 times =   0.399596 seconds (1.537551e+13 flops)
+Time to run                     matmul_8x8x8_col_row_with_loads 100000000 times =   0.779657 seconds (7.880387e+12 flops)
+Time to run                     matmul_8x8x8_col_col_with_loads 100000000 times =   0.960759 seconds (6.394946e+12 flops)
+Time to run          matmul_8x8x8_col_row_with_loads_and_stores 100000000 times =   1.535185 seconds (4.002123e+12 flops)
+Time to run          matmul_8x8x8_col_col_with_loads_and_stores 100000000 times =   1.830576 seconds (3.356320e+12 flops)
+Time to run         matmul_8x8x16_col_row_with_loads_and_stores 100000000 times =   2.342492 seconds (5.245695e+12 flops)
+Time to run         matmul_8x8x24_col_row_with_loads_and_stores 100000000 times =   3.111797 seconds (5.923266e+12 flops)
+Time to run         matmul_8x8x32_col_row_with_loads_and_stores 100000000 times =   3.874722 seconds (6.342648e+12 flops)
+Time to run         matmul_8x8x40_col_row_with_loads_and_stores 100000000 times =   4.634856 seconds (6.628038e+12 flops)
+Time to run         matmul_8x8x48_col_row_with_loads_and_stores 100000000 times =   5.943514 seconds (6.202391e+12 flops)
+Time to run         matmul_8x8x56_col_row_with_loads_and_stores 100000000 times =   6.784660 seconds (6.339006e+12 flops)
+Time to run         matmul_8x8x64_col_row_with_loads_and_stores 100000000 times =   6.906463 seconds (7.116813e+12 flops)
+Time to run         matmul_8x8x64_col_col_with_loads_and_stores 100000000 times =   8.521239 seconds (5.768175e+12 flops)
+Time to run matmul_8x8x64_col_col_with_loads_and_stores_store_B 100000000 times =   8.824616 seconds (5.569874e+12 flops)
+Time to run        matmul_16x8x64_col_col_with_loads_and_stores 100000000 times =  15.760620 seconds (6.237318e+12 flops)
+Time to run        matmul_24x8x64_col_col_with_loads_and_stores 100000000 times =  23.331281 seconds (6.320099e+12 flops)
+Time to run        matmul_32x8x64_col_col_with_loads_and_stores 100000000 times =  30.230138 seconds (6.503708e+12 flops)
+Time to run        matmul_40x8x64_col_col_with_loads_and_stores 100000000 times =  37.138697 seconds (6.617357e+12 flops)
+Time to run        matmul_48x8x64_col_col_with_loads_and_stores 100000000 times =  44.031377 seconds (6.697769e+12 flops)
+Time to run        matmul_56x8x64_col_col_with_loads_and_stores 100000000 times =  50.934087 seconds (6.755083e+12 flops)
+Time to run        matmul_64x8x64_col_col_with_loads_and_stores 100000000 times =  57.839119 seconds (6.798444e+12 flops)
+
+ Performance counter stats for './matmul':
+
+     40,237,011.92 msec task-clock:u                     #   59.464 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+           559,740      page-faults:u                    #   13.911 /sec                      
+225,562,691,274,173      instructions:u                   #    1.31  insn per cycle              (38.46%)
+172,279,152,709,733      cycles:u                         #    4.282 GHz                         (46.15%)
+   406,935,104,111      branches:u                       #   10.113 M/sec                       (46.15%)
+       306,183,717      branch-misses:u                  #    0.08% of all branches             (46.16%)
+69,144,468,350,000      L1-dcache-loads:u                #    1.718 G/sec                       (38.46%)
+     1,167,460,617      L1-dcache-load-misses:u          #    0.00% of all L1-dcache accesses   (15.39%)
+       903,308,260      LLC-loads:u                      #   22.450 K/sec                       (15.39%)
+       351,164,335      LLC-load-misses:u                #   38.88% of all LL-cache accesses    (15.39%)
+28,556,871,277,445      L1-icache-loads:u                #  709.717 M/sec                       (23.08%)
+        43,806,467      L1-icache-load-misses:u          #    0.00% of all L1-icache accesses   (30.77%)
+         1,282,152      dTLB-load-misses:u                                                      (23.08%)
+           182,492      iTLB-load-misses:u                                                      (30.77%)
+     3,947,978,533      L1-dcache-prefetches:u           #   98.118 K/sec                       (30.77%)
+
+     676.665759090 seconds time elapsed
+
+   40223.149421000 seconds user
+      13.749148000 seconds sys
+
+
