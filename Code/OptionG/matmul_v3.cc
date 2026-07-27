@@ -439,6 +439,115 @@ void microgemm
     }
 }
 
+void microdgemm
+(
+    u32     K,
+    double *A,
+    double *B,
+    double *C,
+    u32     M,
+    u32     N,
+    u32     L,
+    u32     lambda
+)
+{
+    assert(0 == K % lambda);           // For simplicty, K must be a multiple of lambda
+    u32 emul_c = L/(lambda * lambda);  // emul_c = # of output registers in a basic vfmmacc instruction
+
+    vsetvli(5, 0, 64, 1, true, true);                   // Initialize the vtype register
+    for (u32 r=16; r<32; r++) vxor.vv(r, r, r);         // T = 0
+
+    // We have 5 possible variants of the code, depending on "emul_c"
+    // (the number of output registers per basic vfmmacc)
+    // emul_c = 1, 2, 4, 8, 16
+
+    if (emul_c == 16) {
+        u64 stepA = M * lambda;
+        u64 stepB = N * lambda;
+        for (u32 k=0; k<K; k=k+lambda)
+        {
+            vle64.v(0, A); A += stepA;
+            vle64.v(8, B); B += stepB;
+            vfmmacc.vv(16, 0, 8);
+        }
+    } else if (emul_c == 8) {
+        u64 stepA = M/2 * lambda;
+        u64 stepB = N * lambda;
+        for (u32 k=0; k<K; k=k+lambda)
+        {
+            vle64.v(0, A); A += stepA;
+            vle64.v(8, B); B += stepB;
+            vfmmacc.vv(16, 0, 8);
+            vle64.v(1, A); A += stepA;
+            vfmmacc.vv(24, 1, 8);
+        }
+    } else if (emul_c == 4) {
+        u64 stepA = M/2 * lambda;
+        u64 stepB = N/2 * lambda;
+        for (u32 k=0; k<K; k=k+lambda)
+        {
+            vle64.v(0, A); A += stepA;
+            vle64.v(8, B); B += stepB;
+            vfmmacc.vv(16, 0, 8);
+            vle64.v(1, A); A += stepA;
+            vfmmacc.vv(20, 1, 8);
+            vle64.v(9, B); B += stepB;
+            vfmmacc.vv(24, 0, 9);
+            vfmmacc.vv(28, 1, 9);
+        }
+    } else if (emul_c == 2) {
+        u64 stepA = M/4 * lambda;
+        u64 stepB = N/2 * lambda;
+        for (u32 k=0; k<K; k=k+lambda)
+        {
+            vle64.v(0, A); A += stepA;
+            vle64.v(8, B); B += stepB;
+            vfmmacc.vv(16, 0, 8);
+            vle64.v(1, A); A += stepA;
+            vfmmacc.vv(18, 1, 8);
+            vle64.v(2, A); A += stepA;
+            vfmmacc.vv(20, 2, 8);
+            vle64.v(3, A); A += stepA;
+            vfmmacc.vv(22, 3, 8);
+            vle64.v(9, B); B += stepB;
+            vfmmacc.vv(24, 0, 9);
+            vfmmacc.vv(26, 1, 9);
+            vfmmacc.vv(28, 2, 9);
+            vfmmacc.vv(30, 3, 9);
+        }
+    } else if (emul_c == 1) {
+        u64 stepA = M/4 * lambda;
+        u64 stepB = N/4 * lambda;
+        for (u32 k=0; k<K; k=k+lambda)
+        {
+            vle64.v(0, A); A += stepA;
+            vle64.v(8, B); B += stepB;
+            vfmmacc.vv(16, 0, 8);
+            vle64.v(1, A); A += stepA;
+            vfmmacc.vv(17, 1, 8);
+            vle64.v(2, A); A += stepA;
+            vfmmacc.vv(18, 2, 8);
+            vle64.v(3, A); A += stepA;
+            vfmmacc.vv(19, 3, 8);
+            vle64.v(9, B); B += stepB;
+            vfmmacc.vv(20, 0, 9);
+            vfmmacc.vv(21, 1, 9);
+            vfmmacc.vv(22, 2, 9);
+            vfmmacc.vv(23, 3, 9);
+            vle64.v(10, B); B += stepB;
+            vfmmacc.vv(24, 0, 10);
+            vfmmacc.vv(25, 1, 10);
+            vfmmacc.vv(26, 2, 10);
+            vfmmacc.vv(27, 3, 10);
+            vle64.v(11, B); B += stepB;
+            vfmmacc.vv(28, 0, 11);
+            vfmmacc.vv(29, 1, 11);
+            vfmmacc.vv(30, 2, 11);
+            vfmmacc.vv(31, 3, 11);
+        }
+    }
+}
+
 double now()
 {
     struct timespec ts;
